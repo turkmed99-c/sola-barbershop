@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Barber Shop Sola — الحجز المباشر</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #121212;
+    --ink: #FDFBF7;
+    --gold: #D4AF37;
+    --gold-light: #F2C230;
+    --red: #C0392B;
+    --glass: rgba(20, 20, 20, 0.85);
+    --glass-border: rgba(212, 175, 55, 0.3);
+    --muted: #A0A0A0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Tajawal',system-ui,sans-serif;
+    color:var(--ink);
+    line-height:1.7;
+    background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(5, 5, 5, 0.95)), url('sola-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+  
+  .badge{
+    display:inline-block; background:var(--gold); color:#000;
+    font-weight:900; font-size:13px; padding:6px 14px; border-radius:999px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:inherit;font-weight:900;font-size:16px;
+    padding:14px 26px;border-radius:999px;border:none;cursor:pointer;
+    transition:all .3s ease; text-align:center;
+  }
+  .btn-primary{background:var(--gold);color:#000;box-shadow:0 6px 20px rgba(212,175,55,.2)}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--gold);border:2px solid var(--gold)}
+  .btn-ghost:hover{background:rgba(212,175,55,.1)}
+  .btn-wa{background:#25D366;color:#fff}
+  .btn-wa:hover{background:#1EBE5A;transform:translateY(-1px)}
+
+  /* PROGRESS BAR */
+  .progress-bar{position:fixed;top:0;right:0;left:0;height:3px;z-index:60;background:transparent;pointer-events:none;}
+  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--red));transition:width .1s linear;}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--glass-border);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+  .logo{font-weight:900;font-size:22px;color:var(--gold);letter-spacing:1px;display:flex;align-items:center;gap:8px}
+  .nav-cta{display:flex;gap:10px;align-items:center}
+  .nav-cta .btn{padding:10px 18px;font-size:14px}
+
+  /* HERO */
+  .hero{padding:60px 0 40px;position:relative;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(34px,5vw,56px);font-weight:900;line-height:1.15;margin:18px 0 20px;}
+  .hero h1 .accent{color:var(--gold)}
+  .hero p.lead{font-size:19px;color:var(--muted);max-width:520px;margin-bottom:28px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+  .hero-meta{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+  .hero-meta span{display:flex;align-items:center;gap:6px}
+  .hero-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+  /* PHONE MOCKUP */
+  .phone-wrap{position:relative;display:flex;justify-content:center}
+  .phone{width:280px;height:560px;background:#000;border-radius:38px;padding:10px;box-shadow:0 12px 48px rgba(212,175,55,.15);border:1px solid var(--glass-border);}
+  .phone-screen{width:100%;height:100%;background:#1A1A1A;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;padding:22px 18px;}
+  .phone-screen h4{font-size:15px;font-weight:800;margin-bottom:14px;text-align:center;color:var(--gold)}
+  .phone-service{background:#222;border:2px solid #333;border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;}
+  .phone-service.active{border-color:var(--gold);background:rgba(212,175,55,.1)}
+  .phone-service small{color:var(--muted);font-weight:500;font-size:12px}
+  .phone-times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+  .phone-time{background:#222;border:2px solid #333;border-radius:10px;padding:10px 4px;text-align:center;font-size:12px;font-weight:700;}
+  .phone-time.active{background:var(--gold);color:#000;border-color:var(--gold)}
+  .phone-cta{margin-top:auto;background:var(--gold);color:#000;border-radius:12px;padding:12px;text-align:center;font-weight:900;font-size:14px;}
+
+  /* SECTIONS & CARDS */
+  section{padding:60px 0}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 40px}
+  .section-head h2{font-size:clamp(26px,3.5vw,36px);font-weight:900;color:var(--gold);margin:14px 0 12px}
+  .section-head p{color:var(--muted);font-size:16px}
+
+  .glass-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+
+  .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .pain-card { text-align: center; }
+  .pain-card .icon{font-size:28px;margin-bottom:12px}
+  .pain-card h3{font-size:18px;font-weight:800;color:var(--gold);margin-bottom:6px}
+  .pain-card p{color:var(--muted);font-size:15px}
+
+  .steps{background:rgba(0,0,0,0.4);}
+  .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .step { position: relative; text-align: center; }
+  .step .num{width:36px;height:36px;border-radius:50%;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;margin:0 auto 15px;}
+  .step h3{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:6px}
+  .step p{font-size:14px;color:var(--muted)}
+
+  /* REAL BOOKING WIDGET */
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .booking-widget{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:28px;backdrop-filter:blur(10px);}
+  .widget-step{display:none}
+  .widget-step.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .widget-step h4{font-size:18px;font-weight:800;margin-bottom:16px;color:var(--gold);display:flex;justify-content:space-between;align-items:center;}
+  .widget-step h4 small{font-size:12px;color:var(--muted);font-weight:500}
+  .svc-grid{display:grid;gap:10px}
+  .svc{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border:2px solid #333;border-radius:12px;cursor:pointer;transition:all .15s ease;background:#1A1A1A;color:var(--ink);}
+  .svc:hover{border-color:var(--gold)}
+  .svc.selected{border-color:var(--gold);background:rgba(212,175,55,.1)}
+  .svc strong{font-weight:800;font-size:15px}
+  .svc small{color:var(--muted);font-size:13px;display:block;font-weight:500}
+  .days-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .day{padding:12px 4px;text-align:center;border:2px solid #333;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px;background:#1A1A1A;color:var(--ink);}
+  .day:hover{border-color:var(--gold)}
+  .day.selected{background:var(--gold);color:#000;border-color:var(--gold)}
+  .times-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px; margin-bottom: 15px;}
+  .time{padding:10px 4px;text-align:center;border:2px solid #333;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px;background:#1A1A1A;color:var(--ink);}
+  .time:hover{border-color:var(--gold)}
+  .time.selected{background:var(--gold);color:#000;border-color:var(--gold)}
+  .widget-nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+  .widget-nav .btn{flex:1;padding:12px}
+  
+  /* FORM INPUTS IN WIDGET */
+  .form-group { margin-bottom: 12px; text-align: right;}
+  .form-group label { display: block; font-size: 13px; color: var(--gold); margin-bottom: 4px; font-weight: 700; }
+  .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #444; background: #000; color: #fff; font-family: inherit; font-size: 15px;}
+  .form-group input:focus { outline: none; border-color: var(--gold); }
+
+  .confirm-box{text-align:center;padding:20px 0}
+  .confirm-box .tick{width:64px;height:64px;border-radius:50%;background:rgba(212,175,55,.2);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;border: 2px solid var(--gold);}
+  .confirm-box h4{font-size:22px;font-weight:900;margin-bottom:8px;color:var(--gold);}
+  .confirm-box p{color:var(--muted);font-size:14px;margin-bottom:16px}
+
+  /* FAQ */
+  .faq-wrap{max-width:800px;margin:0 auto}
+  .faq-item{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .2s ease;}
+  .faq-item.open{border-color:var(--gold)}
+  .faq-q{padding:20px 24px;font-weight:800;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--gold);}
+  .faq-q::after{content:"+";font-size:24px;font-weight:400;color:var(--gold);transition:transform .25s ease;}
+  .faq-item.open .faq-q::after{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 24px;color:var(--muted);font-size:15px;}
+  .faq-item.open .faq-a{max-height:400px;padding-bottom:20px}
+
+  /* FLOATING WHATSAPP */
+  .wa-float{position:fixed;bottom:24px;left:24px;z-index:55;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);cursor:pointer;border:none;transition:transform .2s ease;animation:waPulse 2.5s infinite;}
+  .wa-float:hover{transform:scale(1.1);animation:none;}
+  .wa-float svg{width:30px;height:30px}
+  @keyframes waPulse{0%,100%{box-shadow:0 8px 24px rgba(37,211,102,.4), 0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 8px 24px rgba(37,211,102,.4), 0 0 0 12px rgba(37,211,102,0)}}
+
+  /* FOOTER */
+  footer{background:#000;padding:40px 0;border-top:1px solid var(--glass-border);text-align:center;}
+  footer p{color:var(--muted);font-size:14px;}
+  footer a{color:var(--gold);}
+
+  @media (max-width:960px){
+    .hero-grid,.demo-grid{grid-template-columns:1fr;gap:40px}
+    .phone-wrap{order:-1}
+    .steps-grid,.pain-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    section{padding:48px 0}
+    .steps-grid,.pain-grid{grid-template-columns:1fr}
+    .days-grid, .times-grid{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/212XXXXXXXXX?text=السلام%2C%20بغيت%20نعرف%20أكثر%20على%20Barber%20Shop%20Sola" class="wa-float" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="#" class="logo">BARBER SHOP SOLA</a>
+    <div class="nav-cta">
+      <a href="#demo" class="btn btn-primary">احجز الآن</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge">نظام الحجز المباشر</span>
+      <h1>احجز موعدك في <span class="accent">Barber Shop Sola</span><br>بضغطة زر.</h1>
+      <p class="lead">بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.</p>
+      <div class="hero-ctas">
+        <a href="#demo" class="btn btn-primary">احجز موعدك دابا</a>
+        <a href="#faq" class="btn btn-ghost">شوف كيفاش كيخدم</a>
+      </div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-screen">
+          <h4>احجز موعدك</h4>
+          <div class="phone-service active"><span>قص + لحية</span><small>45 د</small></div>
+          <div class="phone-service"><span>قص</span><small>30 د</small></div>
+          <div class="phone-service"><span>لحية</span><small>20 د</small></div>
+          <div class="phone-times">
+            <div class="phone-time">9:00</div>
+            <div class="phone-time active">10:30</div>
+            <div class="phone-time">11:00</div>
+            <div class="phone-time">14:00</div>
+            <div class="phone-time">15:30</div>
+            <div class="phone-time">17:00</div>
+          </div>
+          <div class="phone-cta">أكّد الحجز</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO (REAL BOOKING) -->
+<section id="demo" style="background: rgba(0,0,0,0.5);">
+  <div class="container demo-grid">
+    <div class="demo-copy">
+      <span class="badge">تجربة مباشرة</span>
+      <h2 style="margin-top:14px; color:var(--gold); font-size:32px;">احجز موعدك الآن</h2>
+      <p style="color:var(--muted); margin-bottom: 20px;">هاد اللي كيشوف الكليان. 3 كليكات وكيوصل الموعد. بلا واتساب، بلا انتظار.</p>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; color: var(--ink);">
+        <li>✓ كيختار الخدمة والمدة</li>
+        <li>✓ كيختار النهار والساعة</li>
+        <li>✓ كيدخل اسمه ورقمه</li>
+        <li>✓ كيتأكد فوراً (وتوصلك رسالة)</li>
+      </ul>
+    </div>
+
+    <div class="booking-widget">
+      
+      <!-- FORM START -->
+      <form id="bookingForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        
+        <!-- STEP 1 -->
+        <div class="widget-step active" data-step="1">
+          <h4>1. اختار الخدمة <small>الخطوة 1 من 4</small></h4>
+          <div class="svc-grid">
+            <div class="svc" data-svc="قص + لحية"><strong>قص + لحية</strong><small>45 دقيقة</small></div>
+            <div class="svc" data-svc="قص"><strong>قص</strong><small>30 دقيقة</small></div>
+            <div class="svc" data-svc="لحية"><strong>لحية</strong><small>20 دقيقة</small></div>
+          </div>
+          <div class="widget-nav">
+            <button type="button" class="btn btn-primary" id="next1" disabled>التالي</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="widget-step" data-step="2">
+          <h4>2. اختار النهار <small>الخطوة 2 من 4</small></h4>
+          <div class="days-grid">
+            <div class="day" data-day="الاثنين">الاثنين</div>
+            <div class="day" data-day="الثلاثاء">الثلاثاء</div>
+            <div class="day" data-day="الأربعاء">الأربعاء</div>
+            <div class="day" data-day="الخميس">الخميس</div>
+            <div class="day" data-day="الجمعة">الجمعة</div>
+            <div class="day" data-day="السبت">السبت</div>
+          </div>
+          <div class="widget-nav">
+            <button type="button" class="btn btn-ghost" data-back="1">رجوع</button>
+            <button type="button" class="btn btn-primary" id="next2" disabled>التالي</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="widget-step" data-step="3">
+          <h4>3. اختار الساعة <small>الخطوة 3 من 4</small></h4>
+          <div class="times-grid">
+            <div class="time" data-time="9:00">9:00</div>
+            <div class="time" data-time="10:00">10:00</div>
+            <div class="time" data-time="11:00">11:00</div>
+            <div class="time" data-time="14:00">14:00</div>
+            <div class="time" data-time="15:00">15:00</div>
+            <div class="time" data-time="16:00">16:00</div>
+            <div class="time" data-time="17:00">17:00</div>
+            <div class="time" data-time="18:00">18:00</div>
+          </div>
+          <div class="widget-nav">
+            <button type="button" class="btn btn-ghost" data-back="2">رجوع</button>
+            <button type="button" class="btn btn-primary" id="next3" disabled>التالي</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 (INFO & SUBMIT) -->
+        <div class="widget-step" data-step="4">
+          <h4>4. معلوماتك <small>الخطوة 4 من 4</small></h4>
+          
+          <div class="form-group">
+            <label>الاسم الكامل</label>
+            <input type="text" id="clientName" name="name" placeholder="اكتب اسمك هنا" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف (واتساب)</label>
+            <input type="tel" id="clientPhone" name="phone" placeholder="06XXXXXXXX" required>
+          </div>
+
+          <!-- HIDDEN INPUTS FOR FORMSPREE -->
+          <input type="hidden" name="service" id="hiddenService">
+          <input type="hidden" name="day" id="hiddenDay">
+          <input type="hidden" name="time" id="hiddenTime">
+
+          <div class="widget-nav">
+            <button type="button" class="btn btn-ghost" data-back="3">رجوع</button>
+            <button type="button" class="btn btn-primary" id="submitBtn">تأكيد الحجز</button>
+          </div>
+        </div>
+
+      </form>
+      <!-- FORM END -->
+
+      <!-- SUCCESS MSG -->
+      <div class="widget-step" data-step="5">
+        <div class="confirm-box">
+          <div class="tick">✓</div>
+          <h4>تم إرسال الطلب بنجاح!</h4>
+          <p id="confirm-text">غادي نتواصلو معاك قريباً لتأكيد الموعد.</p>
+          <button class="btn btn-ghost" onclick="location.reload()">حجز موعد آخر</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge">أسئلة شائعة</span>
+      <h2>واش عندك شي سؤال؟</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <div class="faq-q">واش هاد الحجز ببلاش؟</div>
+        <div class="faq-a">نعم، الحجز مجاني بالكامل. الكليان يختار الوقت ويجي فالميعاد.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">واش خاصني نحمل شي تطبيق؟</div>
+        <div class="faq-a">لا. الكليان كيفتح الرابط من أي متصفح، كيختار، وكيسالي. بلا تحميل، بلا تسجيل.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">كيفاش كنعرف أن الموعد تأكد؟</div>
+        <div class="faq-a">بمجرد ما كتعمر النموذج وتضغط تأكيد، كيوصلنا طلبك فوراً فالإيميل، وغادي نتواصلو معاك لتأكيد الموعد رسمياً.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>© 2024 Barber Shop Sola. جميع الحقوق محفوظة.</p>
+    <p style="margin-top: 10px;">صُمم بواسطة <a href="#">@aladdintech.ai</a></p>
+  </div>
+</footer>
+
+<script>
+  // ============ SCROLL PROGRESS BAR ============
+  const progressFill = document.getElementById('progressFill');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressFill.style.width = percent + '%';
+  });
+
+  // ============ BOOKING WIDGET LOGIC ============
+  const state = { service:null, day:null, time:null };
+
+  function showStep(n){
+    document.querySelectorAll('.widget-step').forEach(s=>{
+      s.classList.toggle('active', s.dataset.step == n);
+    });
+  }
+
+  // Services
+  document.querySelectorAll('.svc').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('.svc').forEach(x=>x.classList.remove('selected'));
+      el.classList.add('selected');
+      state.service = el.dataset.svc;
+      document.getElementById('hiddenService').value = state.service;
+      document.getElementById('next1').disabled = false;
+    });
+  });
+  document.getElementById('next1').addEventListener('click',()=>showStep(2));
+
+  // Days
+  document.querySelectorAll('.day').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('.day').forEach(x=>x.classList.remove('selected'));
+      el.classList.add('selected');
+      state.day = el.dataset.day;
+      document.getElementById('hiddenDay').value = state.day;
+      document.getElementById('next2').disabled = false;
+    });
+  });
+  document.getElementById('next2').addEventListener('click',()=>showStep(3));
+
+  // Times
+  document.querySelectorAll('.time').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('.time').forEach(x=>x.classList.remove('selected'));
+      el.classList.add('selected');
+      state.time = el.dataset.time;
+      document.getElementById('hiddenTime').value = state.time;
+      document.getElementById('next3').disabled = false;
+    });
+  });
+  document.getElementById('next3').addEventListener('click',()=>showStep(4));
+
+  // Back buttons
+  document.querySelectorAll('[data-back]').forEach(el=>{
+    el.addEventListener('click',()=>showStep(el.dataset.back));
+  });
+
+  // Submit Form
+  document.getElementById('submitBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('clientName').value.trim();
+    const phone = document.getElementById('clientPhone').value.trim();
+    
+    if(!name || !phone) {
+      alert('عافاك عمر الاسم ورقم الهاتف.');
+      return;
+    }
+
+    const btn = this;
+    btn.innerText = "جاري الإرسال...";
+    btn.disabled = true;
+
+    const form = document.getElementById('bookingForm');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        document.getElementById('confirm-text').textContent = 
+          `الخدمة: ${state.service} | النهار: ${state.day} | الساعة: ${state.time}`;
+        showStep(5);
+      } else {
+        alert('وقع خطأ، عاود جرب من بعد.');
+        btn.innerText = "تأكيد الحجز";
+        btn.disabled = false;
+      }
+    }).catch(error => {
+      alert('تأكد من اتصالك بالإنترنت.');
+      btn.innerText = "تأكيد الحجز";
+      btn.disabled = false;
+    });
+  });
+
+  // ============ FAQ ============
+  document.querySelectorAll('.faq-q').forEach(q=>{
+    q.addEventListener('click',()=>{
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>
