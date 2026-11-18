@@ -599,27 +599,21 @@
     </svg>
   </a>
 </div>
-
 <script>
-  // ============ عدّاد الحجوزات (يبدأ من 0) ============
-  let currentCount = localStorage.getItem('sola_booking_count');
-  if (!currentCount) {
-    currentCount = 0; 
-  } else {
-    currentCount = parseInt(localStorage.getItem('sola_booking_count'));
-  }
+  // ============ عدّاد الحجوزات ============
+  let currentCount = parseInt(localStorage.getItem('sola_booking_count')) || 0;
   document.getElementById('bookingCount').innerText = currentCount;
 
   // ============ إدارة الساعات والحجز اليومي ============
-  const allTimes = ["9:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+  const allTimes = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
   const timesContainer = document.getElementById('timesContainer');
-  const state = { service:null, day:null, time:null };
-  
+  const state = { service: null, day: null, time: null };
+
   let bookedSlots = JSON.parse(localStorage.getItem('sola_booked_slots')) || [];
 
   function renderTimes() {
     timesContainer.innerHTML = '';
-    
+
     if (!state.day) {
       timesContainer.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--muted);">الرجاء اختيار النهار أولاً</div>';
       return;
@@ -637,7 +631,6 @@
         div.classList.add('booked');
       } else {
         div.addEventListener('click', () => {
-          if(div.classList.contains('booked')) return;
           document.querySelectorAll('.time').forEach(x => x.classList.remove('selected'));
           div.classList.add('selected');
           state.time = time;
@@ -650,53 +643,62 @@
   }
 
   // ============ منطق التنقل ============
-  function showStep(n){
-    document.querySelectorAll('.widget-step').forEach(s=>{
+  function showStep(n) {
+    document.querySelectorAll('.widget-step').forEach(s => {
       s.classList.toggle('active', s.dataset.step == n);
     });
   }
 
-  document.querySelectorAll('.svc').forEach(el=>{
-    el.addEventListener('click',()=>{
-      document.querySelectorAll('.svc').forEach(x=>x.classList.remove('selected'));
+  document.querySelectorAll('.svc').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.svc').forEach(x => x.classList.remove('selected'));
       el.classList.add('selected');
       state.service = el.dataset.svc;
       document.getElementById('hiddenService').value = state.service;
       document.getElementById('next1').disabled = false;
     });
   });
-  document.getElementById('next1').addEventListener('click',()=>showStep(2));
+  document.getElementById('next1').addEventListener('click', () => showStep(2));
 
-  document.querySelectorAll('.day').forEach(el=>{
-    el.addEventListener('click',()=>{
-      document.querySelectorAll('.day').forEach(x=>x.classList.remove('selected'));
+  document.querySelectorAll('.day').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.day').forEach(x => x.classList.remove('selected'));
       el.classList.add('selected');
       state.day = el.dataset.day;
       document.getElementById('hiddenDay').value = state.day;
-      
+
       state.time = null;
       document.getElementById('next3').disabled = true;
-      renderTimes(); 
-      
+      renderTimes();
+
       document.getElementById('next2').disabled = false;
     });
   });
-  document.getElementById('next2').addEventListener('click',()=>showStep(3));
+  document.getElementById('next2').addEventListener('click', () => showStep(3));
+  document.getElementById('next3').addEventListener('click', () => showStep(4));
 
-  document.getElementById('next3').addEventListener('click',()=>showStep(4));
-
-  document.querySelectorAll('[data-back]').forEach(el=>{
-    el.addEventListener('click',()=>showStep(el.dataset.back));
+  document.querySelectorAll('[data-back]').forEach(el => {
+    el.addEventListener('click', () => showStep(el.dataset.back));
   });
 
   // ============ إرسال النموذج ============
-  document.getElementById('submitBtn').addEventListener('click', function(e) {
+  document.getElementById('submitBtn').addEventListener('click', function (e) {
     e.preventDefault();
+
     const name = document.getElementById('clientName').value.trim();
     const phone = document.getElementById('clientPhone').value.trim();
-    
-    if(!name || !phone) {
+
+    if (!name || !phone) {
       alert('عافاك عمر الاسم ورقم الهاتف.');
+      return;
+    }
+
+    const slotKey = state.day + "_" + state.time;
+
+    // فحص التكرار محلياً قبل الإرسال
+    if (bookedSlots.includes(slotKey)) {
+      alert('هاد الموعد محجوز مسبقاً، اختار ساعة أخرى.');
+      showStep(3);
       return;
     }
 
@@ -706,44 +708,45 @@
 
     const form = document.getElementById('bookingForm');
     const formData = new FormData(form);
-const scriptURL = 'https://script.google.com/macros/s/AKfycbx8A025oOJWbjzMQQyw_Nbcd-AbsOMLfuJWpEGfeXJsoNJcvd8N3aDnndSgO0pnp_1M/exec'; 
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx8A025oOJWbjzMQQyw_Nbcd-AbsOMLfuJWpEGfeXJsoNJcvd8N3aDnndSgO0pnp_1M/exec';
 
     fetch(scriptURL, {
       method: 'POST',
       body: formData,
       mode: 'no-cors'
-    }).then(response => {
-        document.getElementById('confirm-text').textContent = 
-          `الخدمة: ${state.service} | النهار: ${state.day} | الساعة: ${state.time}`;
-        showStep(5);
+    })
+    .then(() => {
+      // ✅ الإصلاح: bookedSlots بدل bookedTimes
+      bookedSlots.push(slotKey);
+      localStorage.setItem('sola_booked_slots', JSON.stringify(bookedSlots));
 
-        const slotKey = state.day + "_" + state.time;
-        bookedTimes.push(slotKey);
-        localStorage.setItem('sola_booked_slots', JSON.stringify(bookedTimes));
-        renderTimes(); 
+      currentCount++;
+      localStorage.setItem('sola_booking_count', currentCount);
+      document.getElementById('bookingCount').innerText = currentCount;
 
-        currentCount++;
-        localStorage.setItem('sola_booking_count', currentCount);
-        document.getElementById('bookingCount').innerText = currentCount;
+      document.getElementById('confirm-text').textContent =
+        `الخدمة: ${state.service} | النهار: ${state.day} | الساعة: ${state.time}`;
 
-    }).catch(error => {
+      showStep(5);
+      renderTimes();
+    })
+    .catch(error => {
+      console.error('Booking error:', error);
       alert('وقع خطأ في الاتصال، عاود جرب.');
       btn.innerText = "تأكيد الحجز";
       btn.disabled = false;
     });
-  
   });
 
   // ============ FAQ ============
-  document.querySelectorAll('.faq-q').forEach(q=>{
-    q.addEventListener('click',()=>{
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
       const item = q.parentElement;
       const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-      if(!wasOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
     });
   });
 </script>
-
 </body>
 </html>
