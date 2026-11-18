@@ -15,6 +15,7 @@
     --border: #E8E3DA;
     --muted: #7A7A7A;
     --red: #E74C3C;
+    --green: #27AE60;
     --shadow: 0 8px 30px rgba(0,0,0,0.04);
     --shadow-lg: 0 15px 40px rgba(181, 139, 93, 0.15);
   }
@@ -29,7 +30,6 @@
   }
   a{color:inherit;text-decoration:none}
 
-  /* الأزرار العامة */
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     font-family:inherit;font-weight:800;font-size:16px;
@@ -38,10 +38,10 @@
   }
   .btn-primary{background:var(--gold);color:#fff;box-shadow:0 6px 20px rgba(181,139,93,.25)}
   .btn-primary:hover{background:#9C7448;transform:translateY(-2px)}
+  .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
   .btn-outline{background:transparent;color:var(--gold);border:2px solid var(--gold)}
   .btn-outline:hover{background:rgba(181,139,93,.08)}
   
-  /* Header */
   header{
     position:sticky;top:0;z-index:50;
     background:rgba(248, 246, 242, 0.9);
@@ -54,7 +54,6 @@
   .logo{font-weight:900;font-size:22px;color:var(--gold);letter-spacing:1px;display:flex;align-items:center;gap:8px}
   .logo-mark{width:30px;height:30px;background:var(--gold);border-radius:50%;display:inline-block}
 
-  /* Hero */
   .hero{padding:70px 0 30px;text-align:center;position:relative;overflow:hidden;}
   .hero::before {
     content: ""; position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
@@ -80,83 +79,33 @@
   .hero h1 span{color:var(--gold)}
   .hero p{font-size:19px;color:var(--muted);max-width:600px;margin:0 auto 25px;}
   
-  /* =========================================
-     قسم الهاتف التوضيحي (How it works) - تم نقله للأعلى
-  ========================================= */
-  .how-it-works {
-    padding: 30px 0 50px;
-    background: var(--bg);
-    overflow: hidden;
-  }
-  .guide-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-  }
-  
-  .guide-text h2 {
-    font-size: 32px;
-    font-weight: 900;
-    margin-bottom: 20px;
-    color: var(--ink);
-  }
+  .how-it-works { padding: 30px 0 50px; background: var(--bg); overflow: hidden; }
+  .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .guide-text h2 { font-size: 32px; font-weight: 900; margin-bottom: 20px; color: var(--ink); }
   .guide-text h2 span { color: var(--gold); }
-  .guide-text p {
-    font-size: 18px;
-    color: var(--muted);
-    margin-bottom: 30px;
-  }
-  
-  .guide-steps {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .guide-steps li {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-  }
+  .guide-text p { font-size: 18px; color: var(--muted); margin-bottom: 30px; }
+  .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .guide-steps li { display: flex; align-items: flex-start; gap: 15px; }
   .guide-steps .num {
-    background: var(--gold);
-    color: #fff;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    flex-shrink: 0;
+    background: var(--gold); color: #fff; width: 35px; height: 35px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 16px; flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(181, 139, 93, 0.3);
   }
   .guide-steps h4 { font-size: 18px; font-weight: 800; margin-bottom: 5px; }
   .guide-steps p { font-size: 15px; margin-bottom: 0; color: var(--muted); }
 
-  /* Phone Mockup Design */
-  .phone-mockup-wrap {
-    display: flex;
-    justify-content: center;
-    position: relative;
-  }
+  .phone-mockup-wrap { display: flex; justify-content: center; position: relative; }
   .phone-mockup-wrap::before {
     content: ""; position: absolute; width: 300px; height: 300px;
     background: radial-gradient(circle, rgba(212,184,149,0.4) 0%, transparent 70%);
     top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0;
   }
-  
   .phone-mockup {
-    width: 280px;
-    height: 560px;
-    background: #1A1A1A;
-    border-radius: 40px;
-    padding: 12px;
+    width: 280px; height: 560px; background: #1A1A1A;
+    border-radius: 40px; padding: 12px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
     animation: floatPhone 4s ease-in-out infinite;
   }
   @keyframes floatPhone {
@@ -164,31 +113,20 @@
     50% { transform: translateY(-15px); }
     100% { transform: translateY(0px); }
   }
-  
   .phone-screen {
-    background: #fff;
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-    overflow: hidden;
-    position: relative;
-    padding: 25px 20px;
-    display: flex;
-    flex-direction: column;
+    background: #fff; width: 100%; height: 100%;
+    border-radius: 30px; overflow: hidden; position: relative;
+    padding: 25px 20px; display: flex; flex-direction: column;
   }
-  
   .phone-notch {
     position: absolute; top: 0; left: 50%; transform: translateX(-50%);
     width: 120px; height: 25px; background: #1A1A1A;
     border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
     z-index: 10;
   }
-  
   .phone-header { text-align: center; margin-top: 15px; margin-bottom: 20px; }
   .phone-header h3 { font-size: 18px; font-weight: 900; color: var(--ink); }
-  
   .phone-content { display: flex; flex-direction: column; gap: 10px; }
-  
   .p-item {
     background: #F8F6F2; border: 1px solid var(--border); padding: 12px 15px;
     border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
@@ -196,18 +134,15 @@
   }
   .p-item.active { border-color: var(--gold); background: rgba(181,139,93,.1); }
   .p-item small { color: var(--muted); font-size: 11px; font-weight: 500; }
-  
   .p-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .p-time { background: #F8F6F2; padding: 8px 0; text-align: center; border-radius: 8px; font-size: 12px; font-weight: 700; border: 1px solid var(--border); }
   .p-time.active { background: var(--gold); color: #fff; border-color: var(--gold); }
-  
   .p-btn {
     margin-top: auto; background: var(--gold); color: #fff; text-align: center;
     padding: 15px; border-radius: 12px; font-weight: 900; font-size: 15px;
     box-shadow: 0 4px 15px rgba(181,139,93,.3);
   }
 
-  /* Booking Section */
   .booking-section{padding:20px 0 60px; background:var(--bg);}
   .section-title{text-align:center;font-size:30px;font-weight:900;margin-bottom:40px;}
   .section-title span{color:var(--gold);}
@@ -235,13 +170,32 @@
   .svc strong{font-weight:800;font-size:16px;color:var(--ink)}
   .svc small{color:var(--muted);font-size:14px;font-weight:500;background:#fff;padding:4px 10px;border-radius:20px;border:1px solid var(--border);}
 
-  .days-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .day{
-    padding:15px 5px;text-align:center;border:2px solid var(--border);border-radius:12px;
-    cursor:pointer;font-weight:800;font-size:14px;transition:all .2s ease;background:var(--bg);color:var(--ink);
+  /* الأيام الديناميكية - 7 أيام حقيقية */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 8px;
+  }
+  .day {
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 80px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    background: var(--bg);
+    transition: all .2s ease;
   }
   .day:hover{border-color:var(--gold-light)}
-  .day.selected{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .day.selected{background:var(--gold);border-color:var(--gold)}
+  .day .dow { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .day .dnum { font-size: 20px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .day .dmon { font-size: 10px; color: var(--muted); }
+  .day.selected .dow, .day.selected .dnum, .day.selected .dmon { color: #fff; }
 
   .times-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
   .time{
@@ -273,12 +227,16 @@
   .widget-nav{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
   .widget-nav .btn{flex:1; padding:15px; font-size:16px;}
   
-  .confirm-box{text-align:center;padding:30px 10px}
-  .confirm-box .tick{width:70px;height:70px;border-radius:50%;background:rgba(181,139,93,.1);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;border:2px solid var(--gold);}
+  .confirm-box{text-align:center;padding:20px 10px}
+  .confirm-box .tick{
+    width:70px;height:70px;border-radius:50%;
+    background:rgba(39,174,96,.1);color:var(--green);
+    display:flex;align-items:center;justify-content:center;
+    font-size:36px;margin:0 auto 20px;border:2px solid var(--green);
+  }
   .confirm-box h3{font-size:24px;font-weight:900;color:var(--ink);margin-bottom:10px}
-  .confirm-box p{color:var(--muted);font-size:16px;margin-bottom:25px;line-height:1.8}
+  .confirm-box p{color:var(--muted);font-size:16px;margin-bottom:20px;line-height:1.8}
 
-  /* Services Section */
   .services-section{padding:60px 0;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
   .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
   .service-card{
@@ -290,7 +248,6 @@
   .service-card .price{font-size:24px; font-weight:900; color:var(--gold); background:rgba(181,139,93,.1); display:inline-block; padding:5px 15px; border-radius:20px;}
   .service-card p{font-size:14px; color:var(--muted); margin-top:10px;}
 
-  /* Info Section (Hours & Location) */
   .info-section{padding:60px 0;}
   .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
   .info-card{
@@ -304,7 +261,6 @@
   .location-text{font-size:16px; color:var(--muted); margin-bottom:20px; line-height:1.8;}
   .location-text strong{color:var(--ink);}
 
-  /* FAQ */
   .faq-section{padding:60px 0; background:#fff;}
   .faq-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:15px;overflow:hidden;}
   .faq-q{padding:20px;font-weight:800;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
@@ -313,12 +269,10 @@
   .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 20px;color:var(--muted);font-size:15px;}
   .faq-item.open .faq-a{max-height:300px;padding-bottom:20px}
 
-  /* Footer */
   footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border);background:var(--bg);}
   footer p{font-size:14px;color:var(--muted);margin-bottom:10px;}
   footer a{color:var(--gold);font-weight:800;}
 
-  /* Floating Buttons */
   .floating-btns{position:fixed;bottom:25px;left:25px;display:flex;flex-direction:column;gap:15px;z-index:99;}
   .float-btn{
     width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -338,7 +292,8 @@
     .info-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
-    .days-grid, .times-grid { grid-template-columns: repeat(3,1fr); }
+    .times-grid { grid-template-columns: repeat(3,1fr); }
+    .days-grid { grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); }
     .booking-container { padding: 25px 20px; }
     .floating-btns { bottom: 20px; left: 20px; }
     .float-btn { width: 55px; height: 55px; }
@@ -352,7 +307,7 @@
 <header>
   <div class="container nav">
     <div class="logo"><span class="logo-mark"></span> Barber Shop Sola</div>
-    <a href="https://instagram.com/YOUR_INSTAGRAM_LINK" target="_blank" class="btn btn-outline" style="padding:10px 20px; font-size:14px;">تابعنا</a>
+    <a href="https://www.instagram.com/barbershopsola" target="_blank" rel="noopener" class="btn btn-outline" style="padding:10px 20px; font-size:14px;">تابعنا</a>
   </div>
 </header>
 
@@ -360,36 +315,24 @@
 <section class="hero">
   <div class="container">
     <div class="booking-counter">
-      🔥 <span id="bookingCount">0</span> شخصاً حجزوا حتى الآن!
+      🔥 <span id="bookingCount">...</span> شخصاً حجزوا حتى الآن!
     </div>
     <h1>احجز موعدك في <span>Barber Shop Sola</span><br>بضغطة زر واحدة.</h1>
     <p>بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.</p>
   </div>
 </section>
 
-<!-- How it works (Phone Mockup) - الآن هو الأول -->
+<!-- How it works -->
 <section class="how-it-works">
   <div class="container guide-grid">
     <div class="guide-text">
       <h2>كيفاش تحجز <span>موعدك؟</span></h2>
       <p>العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:</p>
       <ul class="guide-steps">
-        <li>
-          <div class="num">1</div>
-          <div><h4>اختار الخدمة</h4><p>حدد واش بغيتي قص، لحية، ولا بجوج.</p></div>
-        </li>
-        <li>
-          <div class="num">2</div>
-          <div><h4>اختار النهار</h4><p>شوف الأيام المتاحة فالأسبوع واختار اللي يناسبك.</p></div>
-        </li>
-        <li>
-          <div class="num">3</div>
-          <div><h4>اختار الساعة</h4><p>الساعات المحجوزة كتظهر باللون الرمادي، اختار ساعة خاوية.</p></div>
-        </li>
-        <li>
-          <div class="num">4</div>
-          <div><h4>عمر معلوماتك</h4><p>حط سميتك ورقم هاتفك، وتأكد الحجز فوراً.</p></div>
-        </li>
+        <li><div class="num">1</div><div><h4>اختار الخدمة</h4><p>حدد واش بغيتي قص، لحية، ولا بجوج.</p></div></li>
+        <li><div class="num">2</div><div><h4>اختار النهار</h4><p>شوف الأيام السبعة القادمة واختار اللي يناسبك.</p></div></li>
+        <li><div class="num">3</div><div><h4>اختار الساعة</h4><p>الساعات المحجوزة كتظهر رمادية، اختار ساعة خاوية.</p></div></li>
+        <li><div class="num">4</div><div><h4>عمر معلوماتك</h4><p>حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.</p></div></li>
       </ul>
     </div>
 
@@ -397,9 +340,7 @@
       <div class="phone-mockup">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-          <div class="phone-header">
-            <h3>احجز موعدك</h3>
-          </div>
+          <div class="phone-header"><h3>احجز موعدك</h3></div>
           <div class="phone-content">
             <div class="p-item active"><strong>قص + لحية</strong><small>45 دقيقة</small></div>
             <div class="p-item"><strong>قص شعر</strong><small>30 دقيقة</small></div>
@@ -409,9 +350,9 @@
               <div class="p-time">الأربعاء</div>
             </div>
             <div class="p-grid">
-              <div class="p-time">9:00</div>
-              <div class="p-time active">10:00</div>
-              <div class="p-time" style="text-decoration: line-through; opacity: 0.5;">11:00</div>
+              <div class="p-time">11:00</div>
+              <div class="p-time active">12:00</div>
+              <div class="p-time" style="text-decoration: line-through; opacity: 0.5;">13:00</div>
               <div class="p-time">14:00</div>
               <div class="p-time">15:00</div>
               <div class="p-time" style="text-decoration: line-through; opacity: 0.5;">16:00</div>
@@ -424,13 +365,13 @@
   </div>
 </section>
 
-<!-- Booking Section - الآن هو الثاني مباشرة -->
+<!-- Booking Section -->
 <section id="booking" class="booking-section">
   <div class="container">
     <h2 class="section-title">احجز <span>موعدك الآن</span></h2>
     <div class="booking-container">
       
-      <form id="bookingForm" action= method="POST">
+      <form id="bookingForm">
         
         <!-- STEP 1 -->
         <div class="widget-step active" data-step="1">
@@ -448,14 +389,7 @@
         <!-- STEP 2 -->
         <div class="widget-step" data-step="2">
           <h3>اختار النهار <small>الخطوة 2 من 4</small></h3>
-          <div class="days-grid">
-            <div class="day" data-day="الاثنين">الاثنين</div>
-            <div class="day" data-day="الثلاثاء">الثلاثاء</div>
-            <div class="day" data-day="الأربعاء">الأربعاء</div>
-            <div class="day" data-day="الخميس">الخميس</div>
-            <div class="day" data-day="الجمعة">الجمعة</div>
-            <div class="day" data-day="السبت">السبت</div>
-          </div>
+          <div class="days-grid" id="daysContainer"></div>
           <div class="widget-nav">
             <button type="button" class="btn btn-outline" data-back="1">رجوع</button>
             <button type="button" class="btn btn-primary" id="next2" disabled>التالي</button>
@@ -465,9 +399,7 @@
         <!-- STEP 3 -->
         <div class="widget-step" data-step="3">
           <h3>اختار الساعة <small>الخطوة 3 من 4</small></h3>
-          <div class="times-grid" id="timesContainer">
-            <!-- سيتم توليد الساعات هنا -->
-          </div>
+          <div class="times-grid" id="timesContainer"></div>
           <div class="widget-nav">
             <button type="button" class="btn btn-outline" data-back="2">رجوع</button>
             <button type="button" class="btn btn-primary" id="next3" disabled>التالي</button>
@@ -500,8 +432,8 @@
       <div class="widget-step" data-step="5">
         <div class="confirm-box">
           <div class="tick">✓</div>
-          <h3>تم إرسال الطلب بنجاح!</h3>
-          <p id="confirm-text">غادي نتواصلو معاك قريباً لتأكيد الموعد.</p>
+          <h3>تم تأكيد حجزك!</h3>
+          <p id="confirm-text">...</p>
           <button class="btn btn-outline" onclick="location.reload()">حجز موعد آخر</button>
         </div>
       </div>
@@ -510,53 +442,36 @@
   </div>
 </section>
 
-<!-- Services Section -->
+<!-- Services -->
 <section class="services-section">
   <div class="container">
     <h2 class="section-title">خدماتنا <span>وأثمنتها</span></h2>
     <div class="services-grid">
-      <div class="service-card">
-        <h4>قص شعر</h4>
-        <div class="price">40 درهم</div>
-        <p>قص عصري يناسب ستايلك.</p>
-      </div>
-      <div class="service-card">
-        <h4>تحديد لحية</h4>
-        <div class="price">20 درهم</div>
-        <p>تحديد وتشذيب احترافي.</p>
-      </div>
-      <div class="service-card">
-        <h4>قص + لحية</h4>
-        <div class="price">50 درهم</div>
-        <p>الباقة الكاملة للإطلالة المثالية.</p>
-      </div>
-      <div class="service-card">
-        <h4>تنظيف بشرة</h4>
-        <div class="price">30 درهم</div>
-        <p>عناية وانتعاش للوجه.</p>
-      </div>
+      <div class="service-card"><h4>قص شعر</h4><div class="price">40 درهم</div><p>قص عصري يناسب ستايلك.</p></div>
+      <div class="service-card"><h4>تحديد لحية</h4><div class="price">20 درهم</div><p>تحديد وتشذيب احترافي.</p></div>
+      <div class="service-card"><h4>قص + لحية</h4><div class="price">50 درهم</div><p>الباقة الكاملة للإطلالة المثالية.</p></div>
+      <div class="service-card"><h4>تنظيف بشرة</h4><div class="price">30 درهم</div><p>عناية وانتعاش للوجه.</p></div>
     </div>
   </div>
 </section>
 
-<!-- Info Section (Hours & Location) -->
+<!-- Info -->
 <section class="info-section">
   <div class="container info-grid">
     <div class="info-card">
       <h3>🕒 ساعات العمل</h3>
       <ul class="hours-list">
-        <li>الاثنين - الجمعة <span>9:00 ص - 8:00 م</span></li>
-        <li>السبت <span>9:00 ص - 9:00 م</span></li>
+        <li>الاثنين - السبت <span>11:00 ص - 10:00 م</span></li>
         <li>الأحد <span style="color: var(--red);">مغلق</span></li>
       </ul>
     </div>
     <div class="info-card">
       <h3>📍 مكان المحل</h3>
       <p class="location-text">
-        <strong>العنوان:</strong> شارع محمد الخامس، رقم 45، الدار البيضاء، المغرب.<br>
-        قريب من ساحة الأمم المتحدة.
+        <strong>العنوان:</strong> طنجة، المغرب.<br>
+        اضغط على الزر باش تفتح الموقع فـ Google Maps.
       </p>
-      <a href="https://www.google.com/maps/place/35.758891,-5.848048/data=!4m6!3m5!1s0!7e2!8m2!3d35.7588911!4d-5.8480485!18m1!1e1?utm_source=mstt_1&g_ep=CAESBzI2LjQ2LjAYACD4wA0qmgEsOTQyOTIxOTUsMTAwNzk3NzYxLDEwMDg0MDA0NiwxMDA3OTQ1MDYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTg2NTMsOTQyMjk4MzksMTAwODQ4MDk2LDEwMDgyNTAyNSwxMDA4Mjc5NzUsMTAwODM4MzU5LDEyMTgxNjQ2MSwxMDA4NDU5MzgsMTAwODQ3NDQ1QgJNQQ%3D%3D&skid=72dd6ba5-766e-474c-9577-b0735be9590e&entry=ml&utm_campaign=ml-ardl&coh=192189%2C230964" target="_blank" class="btn btn-outline" style="width:100%;">افتح في خرائط جوجل</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=35.758891,-5.848048" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;">افتح في خرائط جوجل</a>
     </div>
   </div>
 </section>
@@ -572,7 +487,11 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">كيفاش كنعرف أن الموعد تأكد؟</div>
-        <div class="faq-a">بمجرد ما كتعمر النموذج وتضغط تأكيد، كيوصلنا طلبك فوراً فالإيميل، وغادي نتواصلو معاك لتأكيد الموعد رسمياً.</div>
+        <div class="faq-a">بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">واش يمكن نحجز نفس الساعة من جهاز آخر؟</div>
+        <div class="faq-a">لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان رمادية عند الجميع.</div>
       </div>
     </div>
   </div>
@@ -586,36 +505,119 @@
   </div>
 </footer>
 
-<!-- Floating Buttons -->
+<!-- Floating -->
 <div class="floating-btns">
-  <a href="https://wa.me/212715962484" class="float-btn float-wa" target="_blank">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-    </svg>
+  <a href="https://wa.me/212715962484" class="float-btn float-wa" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
   </a>
-  <a href="https://www.instagram.com/barbershopsola?hvrq=MTZ3aTk4ZWo3cGphdg%3D%3D" class="float-btn float-insta" target="_blank">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-    </svg>
+  <a href="https://www.instagram.com/barbershopsola" class="float-btn float-insta" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
   </a>
 </div>
+
 <script>
-  // ============ عدّاد الحجوزات ============
-  let currentCount = parseInt(localStorage.getItem('sola_booking_count')) || 0;
-  document.getElementById('bookingCount').innerText = currentCount;
+  // ============ الإعدادات ============
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbx8A025oOJWbjzMQQyw_Nbcd-AbsOMLfuJWpEGfeXJsoNJcvd8N3aDnndSgO0pnp_1M/exec';
+  const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
+  const dayNamesAr   = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const monthNamesAr = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
 
-  // ============ إدارة الساعات والحجز اليومي ============
-  const allTimes = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
-  const timesContainer = document.getElementById('timesContainer');
-  const state = { service: null, day: null, time: null };
+  const state = { service: null, date: null, dayName: null, time: null };
+  let bookedSlots = [];
+  let currentCount = 0;
 
-  let bookedSlots = JSON.parse(localStorage.getItem('sola_booked_slots')) || [];
+  // ============ Helpers ============
+  function toLocalISO(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
 
+  function formatArabicDate(isoDate) {
+    const d = new Date(isoDate + 'T12:00:00');
+    return `${dayNamesAr[d.getDay()]} ${d.getDate()} ${monthNamesAr[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function formatTime12(t) {
+    const [h, m] = t.split(':').map(Number);
+    const period = h < 12 ? 'صباحاً' : 'مساءً';
+    const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+    return `${h12}:${String(m).padStart(2, '0')} ${period}`;
+  }
+
+  function apiGet(params) {
+    const url = scriptURL + '?' + new URLSearchParams({ ...params, _t: Date.now() }).toString();
+    return fetch(url, { method: 'GET' }).then(r => r.json());
+  }
+
+  // ============ تحميل من السيرفر ============
+  function loadBookedSlots() {
+    return apiGet({ action: 'getBookedSlots' })
+      .then(data => { bookedSlots = data.slots || []; })
+      .catch(err => { console.error('load slots failed:', err); });
+  }
+
+  function loadCount() {
+    return apiGet({ action: 'getCount' })
+      .then(data => {
+        currentCount = data.count || 0;
+        document.getElementById('bookingCount').innerText = currentCount;
+      })
+      .catch(err => { console.error('load count failed:', err); });
+  }
+
+  // ============ الأيام (7 أيام، تخطي الأحد) ============
+  function generateDays() {
+    const container = document.getElementById('daysContainer');
+    container.innerHTML = '';
+
+    const today = new Date();
+    let added = 0;
+    let offset = 0;
+
+    while (added < 7 && offset < 14) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + offset);
+
+      if (d.getDay() === 0) { offset++; continue; } // تخطي الأحد
+
+      const iso = toLocalISO(d);
+      const chip = document.createElement('div');
+      chip.className = 'day';
+      chip.dataset.date = iso;
+      chip.dataset.dayName = dayNamesAr[d.getDay()];
+      chip.innerHTML = `
+        <div class="dow">${dayNamesAr[d.getDay()]}</div>
+        <div class="dnum">${d.getDate()}</div>
+        <div class="dmon">${monthNamesAr[d.getMonth()]}</div>
+      `;
+
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.day').forEach(x => x.classList.remove('selected'));
+        chip.classList.add('selected');
+        state.date = iso;
+        state.dayName = dayNamesAr[d.getDay()];
+        document.getElementById('hiddenDay').value = iso;
+        state.time = null;
+        document.getElementById('next3').disabled = true;
+        renderTimes();
+        document.getElementById('next2').disabled = false;
+      });
+
+      container.appendChild(chip);
+      added++;
+      offset++;
+    }
+  }
+
+  // ============ الساعات ============
   function renderTimes() {
+    const timesContainer = document.getElementById('timesContainer');
     timesContainer.innerHTML = '';
 
-    if (!state.day) {
-      timesContainer.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--muted);">الرجاء اختيار النهار أولاً</div>';
+    if (!state.date) {
+      timesContainer.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--muted);">الرجاء اختيار النهار أولاً</div>';
       return;
     }
 
@@ -625,7 +627,7 @@
       div.innerText = time;
       div.dataset.time = time;
 
-      const slotKey = state.day + "_" + time;
+      const slotKey = state.date + '_' + time;
 
       if (bookedSlots.includes(slotKey)) {
         div.classList.add('booked');
@@ -634,7 +636,7 @@
           document.querySelectorAll('.time').forEach(x => x.classList.remove('selected'));
           div.classList.add('selected');
           state.time = time;
-          document.getElementById('hiddenTime').value = state.time;
+          document.getElementById('hiddenTime').value = time;
           document.getElementById('next3').disabled = false;
         });
       }
@@ -642,11 +644,12 @@
     });
   }
 
-  // ============ منطق التنقل ============
+  // ============ التنقل ============
   function showStep(n) {
     document.querySelectorAll('.widget-step').forEach(s => {
       s.classList.toggle('active', s.dataset.step == n);
     });
+    document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   document.querySelectorAll('.svc').forEach(el => {
@@ -659,83 +662,106 @@
     });
   });
   document.getElementById('next1').addEventListener('click', () => showStep(2));
-
-  document.querySelectorAll('.day').forEach(el => {
-    el.addEventListener('click', () => {
-      document.querySelectorAll('.day').forEach(x => x.classList.remove('selected'));
-      el.classList.add('selected');
-      state.day = el.dataset.day;
-      document.getElementById('hiddenDay').value = state.day;
-
-      state.time = null;
-      document.getElementById('next3').disabled = true;
-      renderTimes();
-
-      document.getElementById('next2').disabled = false;
-    });
-  });
   document.getElementById('next2').addEventListener('click', () => showStep(3));
   document.getElementById('next3').addEventListener('click', () => showStep(4));
-
   document.querySelectorAll('[data-back]').forEach(el => {
     el.addEventListener('click', () => showStep(el.dataset.back));
   });
 
-  // ============ إرسال النموذج ============
-  document.getElementById('submitBtn').addEventListener('click', function (e) {
+  // ============ إرسال الحجز ============
+  document.getElementById('submitBtn').addEventListener('click', async function (e) {
     e.preventDefault();
+    const btn = this;
 
-    const name = document.getElementById('clientName').value.trim();
+    const name  = document.getElementById('clientName').value.trim();
     const phone = document.getElementById('clientPhone').value.trim();
 
-    if (!name || !phone) {
-      alert('عافاك عمر الاسم ورقم الهاتف.');
-      return;
-    }
+    if (!name || !phone) { alert('عافاك عمر الاسم ورقم الهاتف.'); return; }
+    if (!state.service || !state.date || !state.time) { alert('المرجو إكمال جميع الخطوات.'); return; }
 
-    const slotKey = state.day + "_" + state.time;
-
-    // فحص التكرار محلياً قبل الإرسال
+    const slotKey = state.date + '_' + state.time;
     if (bookedSlots.includes(slotKey)) {
       alert('هاد الموعد محجوز مسبقاً، اختار ساعة أخرى.');
       showStep(3);
       return;
     }
 
-    const btn = this;
-    btn.innerText = "جاري الإرسال...";
+    btn.innerText = 'جاري الإرسال...';
     btn.disabled = true;
 
-    const form = document.getElementById('bookingForm');
-    const formData = new FormData(form);
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx8A025oOJWbjzMQQyw_Nbcd-AbsOMLfuJWpEGfeXJsoNJcvd8N3aDnndSgO0pnp_1M/exec';
+    try {
+      const data = await apiGet({
+        action: 'book',
+        date: state.date,
+        day: state.dayName,
+        time: state.time,
+        service: state.service,
+        name: name,
+        phone: phone
+      });
 
-    fetch(scriptURL, {
-      method: 'POST',
-      body: formData,
-      mode: 'no-cors'
-    })
-    .then(() => {
-      // ✅ الإصلاح: bookedSlots بدل bookedTimes
-      bookedSlots.push(slotKey);
-      localStorage.setItem('sola_booked_slots', JSON.stringify(bookedSlots));
+      if (data.status === 'OK') {
+        const cardHTML = `
+          <div style="background:#fff; border:2px solid var(--gold); border-radius:16px; padding:20px; margin:20px auto; text-align:right; max-width:400px; box-shadow: 0 10px 30px rgba(181,139,93,.2);">
+            <div style="text-align:center; padding-bottom:14px; border-bottom:1px dashed var(--border); margin-bottom:14px;">
+              <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">رقم الحجز</div>
+              <div style="font-size:22px; font-weight:900; color:var(--gold); letter-spacing:1px; font-family:monospace;">${data.bookingId}</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0;">
+              <span style="color:var(--muted);">الخدمة:</span><strong>${state.service}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0;">
+              <span style="color:var(--muted);">التاريخ:</span><strong>${formatArabicDate(state.date)}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0;">
+              <span style="color:var(--muted);">الساعة:</span><strong>${formatTime12(state.time)}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0;">
+              <span style="color:var(--muted);">الاسم:</span><strong>${name}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:6px 0;">
+              <span style="color:var(--muted);">الهاتف:</span><strong dir="ltr">${phone}</strong>
+            </div>
+            <div style="background:rgba(181,139,93,.1); padding:12px; border-radius:10px; margin-top:14px; text-align:center; font-size:13px; color:var(--ink); font-weight:700;">
+              📸 خد لقطة ديال هاد البطاقة باش توريها نهار الموعد
+            </div>
+          </div>
+        `;
+        document.getElementById('confirm-text').innerHTML = cardHTML;
+        showStep(5);
 
-      currentCount++;
-      localStorage.setItem('sola_booking_count', currentCount);
-      document.getElementById('bookingCount').innerText = currentCount;
+        await loadBookedSlots();
+        await loadCount();
 
-      document.getElementById('confirm-text').textContent =
-        `الخدمة: ${state.service} | النهار: ${state.day} | الساعة: ${state.time}`;
-
-      showStep(5);
-      renderTimes();
-    })
-    .catch(error => {
-      console.error('Booking error:', error);
+      } else if (data.status === 'TAKEN') {
+        alert('هاد الموعد تحجز دابا من طرف شخص آخر. اختار ساعة أخرى.');
+        await loadBookedSlots();
+        renderTimes();
+        showStep(3);
+      } else if (data.status === 'BUSY') {
+        alert('السيرفر مشغول، عاود جرب بعد ثانية.');
+      } else {
+        alert('وقع خطأ غير متوقع، عاود جرب.');
+        console.error('Server response:', data);
+      }
+    } catch (err) {
+      console.error('Booking error:', err);
       alert('وقع خطأ في الاتصال، عاود جرب.');
-      btn.innerText = "تأكيد الحجز";
+    } finally {
+      btn.innerText = 'تأكيد الحجز';
       btn.disabled = false;
-    });
+    }
+  });
+
+  // ============ التهيئة ============
+  document.addEventListener('DOMContentLoaded', async () => {
+    generateDays();
+    try {
+      await loadBookedSlots();
+      await loadCount();
+    } catch (err) {
+      console.warn('Initial sync failed:', err);
+    }
   });
 
   // ============ FAQ ============
