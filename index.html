@@ -23,7 +23,8 @@
   .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
   .btn-outline{background:transparent;color:var(--gold);border:2px solid var(--gold)}
   .btn-outline:hover{background:rgba(181,139,93,.08)}
-  .btn-danger{background:var(--red);color:#fff;padding:8px 12px;font-size:13px;border-radius:8px}
+  .btn-danger{background:transparent;color:var(--red);border:2px solid var(--red);padding:10px;font-size:14px;border-radius:8px;margin-top:10px;width:100%;}
+  .btn-danger:hover{background:var(--red);color:#fff;}
   
   header{position:sticky;top:0;z-index:50;background:rgba(248, 246, 242, 0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:15px 0}
   .container{max-width:1100px;margin:0 auto;padding:0 20px}
@@ -169,22 +170,12 @@
   footer p{font-size:14px;color:var(--muted);margin-bottom:10px}
   footer a{color:var(--gold);font-weight:800}
   
-  /* أزرار عائمة فاليمين باش مايغطيوش على زر التالي */
   .floating-btns{position:fixed;bottom:80px;right:15px;display:flex;flex-direction:column;gap:12px;z-index:99}
   .float-btn{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.15);transition:transform .3s ease}
   .float-btn:hover{transform:scale(1.1)}
   .float-btn svg{width:26px;height:26px}
   .float-wa{background:#25D366}
   .float-insta{background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)}
-  
-  .admin-modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;}
-  .admin-modal.active {display:flex;}
-  .admin-content {background:#fff; width:100%; max-width:600px; max-height:90vh; border-radius:16px; padding:20px; overflow-y:auto; position:relative;}
-  .admin-close {position:absolute; top:15px; left:15px; background:var(--red); color:#fff; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; font-weight:bold; font-size:18px;}
-  .admin-item {display:flex; justify-content:space-between; align-items:center; padding:15px; border-bottom:1px solid var(--border);}
-  .admin-item-info {font-size:14px;}
-  .admin-item-info strong {color:var(--ink); font-size:16px;}
-  .admin-item-info span {color:var(--muted); display:block; margin-top:4px;}
 
   @media (max-width: 900px) {
     .guide-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
@@ -304,9 +295,6 @@
             <label data-i18n="phoneLabel">رقم الهاتف (واتساب)</label>
             <input type="tel" id="clientPhone" name="phone" placeholder="06XXXXXXXX" required>
           </div>
-          <input type="hidden" name="service" id="hiddenService">
-          <input type="hidden" name="day" id="hiddenDay">
-          <input type="hidden" name="time" id="hiddenTime">
           <div class="widget-nav">
             <button type="button" class="btn btn-outline" data-back="3" data-i18n="backBtn">رجوع</button>
             <button type="button" class="btn btn-primary" id="submitBtn" data-i18n="confirmBtn">تأكيد الحجز</button>
@@ -341,7 +329,7 @@
     <div class="info-card">
       <h3 data-i18n="hoursTitle">🕒 ساعات العمل</h3>
       <ul class="hours-list">
-        <li><span data-i18n="hoursDays">الاثنين - الأحد</span> <span data-i18n="hoursRange">11:00 ص - 10:00 م</span></li>
+        <li><span data-i18n="hoursDays">الاثنين - الأحد</span> <span data-i18n="hoursRange">11:00 ص - 22:00 م</span></li>
       </ul>
     </div>
     <div class="info-card">
@@ -391,21 +379,12 @@
   </a>
 </div>
 
-<!-- Admin Modal -->
-<div class="admin-modal" id="adminModal">
-    <div class="admin-content">
-        <button class="admin-close" onclick="document.getElementById('adminModal').classList.remove('active')">×</button>
-        <h3 style="color:var(--red); margin-bottom:15px; font-size:20px;">لوحة التحكم (الباربير)</h3>
-        <div id="adminList"></div>
-    </div>
-</div>
-
 <script>
 /* ============================================================
    CONFIG
 ============================================================ */
-// ⚠️ هنا حط الرابط الجديد ديال Apps Script
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxYlvDBdNVkS-zapNSl7GlynQlK7NswJ8BEyLnpH6H29gZvjNYEzL42b22gTZr68ccy/exec';
+// ⚠️ هنا حط الرابط الجديد ديال Apps Script (اللي كيسالي بـ /exec)
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx0ZuyQYcDeQKw4bz1ELdSIplWirDW8r4uy2L759fLxOKkQVWJlenUoHqpsksa4KpCdmw/exec'; 
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
 const SERVICE_DURATION = { 'قص + لحية': 45, 'قص': 30, 'لحية': 20 };
 
@@ -431,13 +410,13 @@ const I18N = {
     timeStepTitle: 'اختار الساعة', stepBadge3: 'الخطوة 3 من 4',
     infoStepTitle: 'معلوماتك', stepBadge4: 'الخطوة 4 من 4',
     nextBtn: 'التالي', backBtn: 'رجوع', nameLabel: 'الاسم الكامل', namePlaceholder: 'اكتب اسمك هنا', phoneLabel: 'رقم الهاتف (واتساب)',
-    successTitle: 'تم تأكيد حجزك!', bookAnother: 'حجز موعد آخر',
+    successTitle: 'تم تأكيد حجزك!', bookAnother: 'حجز موعد آخر', cancelBtn: 'إلغاء هذا الحجز',
     servicesTitle: 'خدماتنا <span>وأثمنتها</span>',
     cardSvc1: 'قص شعر', cardSvc1Price: '25 درهم', cardSvc1Desc: 'قص عصري يناسب ستايلك.',
     cardSvc2: 'تحديد لحية', cardSvc2Price: '15 درهم', cardSvc2Desc: 'تحديد وتشذيب احترافي.',
     cardSvc3: 'قص + لحية', cardSvc3Price: '35 درهم', cardSvc3Desc: 'الباقة الكاملة للإطلالة المثالية.',
     cardSvc4: 'تنظيف بشرة', cardSvc4Price: '30 درهم', cardSvc4Desc: 'عناية وانتعاش للوجه.',
-    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '22:00 ص - 10:00 م',
+    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '11:00 ص - 10:00 م',
     locationTitle: '📍 مكان المحل', locationText: '<strong>العنوان:</strong> طنجة، المغرب.<br>اضغط على الزر باش تفتح الموقع فـ Google Maps.', openMaps: 'افتح في خرائط جوجل',
     faqTitle: 'أسئلة <span>شائعة</span>',
     faq1Q: 'واش هاد الحجز ببلاش؟', faq1A: 'نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.',
@@ -477,7 +456,7 @@ const I18N = {
     timeStepTitle: 'Choisir l\'heure', stepBadge3: 'Étape 3 sur 4',
     infoStepTitle: 'Vos informations', stepBadge4: 'Étape 4 sur 4',
     nextBtn: 'Suivant', backBtn: 'Retour', nameLabel: 'Nom complet', namePlaceholder: 'Entrez votre nom', phoneLabel: 'Téléphone (WhatsApp)',
-    successTitle: 'Réservation confirmée !', bookAnother: 'Nouvelle réservation',
+    successTitle: 'Réservation confirmée !', bookAnother: 'Nouvelle réservation', cancelBtn: 'Annuler cette réservation',
     servicesTitle: 'Nos services <span>et tarifs</span>',
     cardSvc1: 'Coupe de cheveux', cardSvc1Price: '25 DH', cardSvc1Desc: 'Coupe moderne adaptée à votre style.',
     cardSvc2: 'Taille de barbe', cardSvc2Price: '15 DH', cardSvc2Desc: 'Taille et entretien professionnel.',
@@ -510,7 +489,7 @@ let lang = localStorage.getItem('sola_lang') || 'ar';
 if (!['ar', 'fr'].includes(lang)) lang = 'ar'; 
 
 const t = () => I18N[lang];
-const state = { service: null, date: null, dayName: null, time: null };
+const state = { service: null, date: null, dayName: null, time: null, bookingId: null, name: null, phone: null };
 let bookedSlots = [];
 let countdownInterval = null;
 const $ = id => document.getElementById(id);
@@ -633,6 +612,7 @@ function renderTimes() {
       div.classList.add('past');
       div.dataset.pastLabel = tt.pastLabel;
     }
+    // هنا فين كيتشيك واش الساعة محجوزة من الداتا اللي جات من جوجل
     else if (bookedSlots.includes(`${state.date}_${time}`)) {
       div.classList.add('booked');
       div.dataset.bookedLabel = tt.bookedLabel;
@@ -667,36 +647,7 @@ document.querySelectorAll('.svc').forEach(el => {
   });
 });
 $('next1').addEventListener('click', () => showStep(2));
-$('next2').addEventListener('click', async function() {
-  const btn = this;
-  btn.disabled = true;
-  const originalText = btn.innerText;
-  btn.innerText = 'جاري التحديث...';
-  
-  await syncData();async function syncData() {
-  try {
-    const [slotsData, countData] = await Promise.all([
-      apiGet({ action: 'getBookedSlots' }),
-      apiGet({ action: 'getCount' })
-    ]);
-    
-    // هاد السطر غادي يورينا شنو كيرجع السيرفر بالضبط
-    console.log("✅ الساعات المحجوزة اللي جابها السيرفر:", slotsData);
-    
-    bookedSlots = slotsData.slots || [];
-    $('bookingCount').innerText = countData.count !== undefined ? countData.count : 0;
-    
-    if ($('timesContainer')) renderTimes();
-  } catch (err) {
-    console.error('❌ مشكل فالاتصال:', err);
-    $('bookingCount').innerText = '⚠️'; // إيلا كان مشكل فالاتصال كتبان علامة تحذير
-  }
-} // جلب أحدث الحجوزات من السيرفر
-  
-  btn.innerText = originalText;
-  btn.disabled = false;
-  showStep(3);
-});
+$('next2').addEventListener('click', () => showStep(3));
 $('next3').addEventListener('click', () => showStep(4));
 document.querySelectorAll('[data-back]').forEach(el => el.addEventListener('click', () => showStep(el.dataset.back)));
 
@@ -712,6 +663,9 @@ $('submitBtn').addEventListener('click', async function (e) {
 
   if (!name || !phone) { alert(tt.errNamePhone); return; }
 
+  state.name = name;
+  state.phone = phone;
+
   btn.innerText = (lang === 'ar') ? 'جاري التأكيد...' : 'Confirmation...';
   btn.disabled = true;
 
@@ -721,6 +675,7 @@ $('submitBtn').addEventListener('click', async function (e) {
     });
 
     if (data.status === 'OK') {
+      state.bookingId = data.bookingId;
       renderSuccessCard(data, name, phone);
       showStep(5);
       await syncData(); 
@@ -740,7 +695,7 @@ $('submitBtn').addEventListener('click', async function (e) {
 });
 
 /* ============================================================
-   SUCCESS CARD & COUNTDOWN
+   SUCCESS CARD & CANCEL
 ============================================================ */
 function renderSuccessCard(data, name, phone) {
   const tt = t();
@@ -780,6 +735,10 @@ function renderSuccessCard(data, name, phone) {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         ${lang === 'ar' ? 'إرسال التأكيد في واتساب' : 'Confirmer via WhatsApp'}
       </a>
+
+      <button onclick="cancelMyBooking()" class="btn btn-danger" id="cancelBtn">
+        ${tt.cancelBtn}
+      </button>
     </div>
   `;
   
@@ -789,6 +748,37 @@ function renderSuccessCard(data, name, phone) {
   if (countdownInterval) clearInterval(countdownInterval);
   countdownInterval = setInterval(updateCountdown, 1000);
   updateCountdown();
+}
+
+// 🛑 دالة الإلغاء
+async function cancelMyBooking() {
+  if (!confirm(lang === 'ar' ? 'واش متأكد بغيت تلغي هاد الحجز؟' : 'Êtes-vous sûr de vouloir annuler ?')) return;
+
+  const btn = $('cancelBtn');
+  btn.innerText = (lang === 'ar') ? 'جاري الإلغاء...' : 'Annulation...';
+  btn.disabled = true;
+
+  try {
+    const res = await apiGet({
+      action: 'cancel',
+      date: state.date,
+      time: state.time,
+      phone: state.phone
+    });
+
+    if (res.status === 'OK') {
+      alert(lang === 'ar' ? 'تم إلغاء الحجز بنجاح.' : 'Réservation annulée avec succès.');
+      location.reload(); // كنعاودو نحملو الصفحة باش تمسح البطاقة
+    } else {
+      alert(lang === 'ar' ? 'وقع خطأ، المرجو المحاولة لاحقاً.' : 'Erreur, réessayez plus tard.');
+      btn.innerText = t().cancelBtn;
+      btn.disabled = false;
+    }
+  } catch (err) {
+    alert(t().errNetwork);
+    btn.innerText = t().cancelBtn;
+    btn.disabled = false;
+  }
 }
 
 function updateCountdown() {
@@ -818,48 +808,6 @@ function updateCountdown() {
 }
 
 /* ============================================================
-   ADMIN PANEL (Hidden)
-============================================================ */
-async function loadAdminData() {
-  try {
-    const data = await apiGet({ action: 'getAll' });
-    const list = $('adminList');
-    list.innerHTML = '';
-    if (!data.bookings || data.bookings.length === 0) {
-      list.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">لا توجد حجوزات حالياً.</p>';
-      return;
-    }
-    data.bookings.forEach(b => {
-      const div = document.createElement('div');
-      div.className = 'admin-item';
-      div.innerHTML = `
-        <div class="admin-item-info">
-          <strong>${b.name}</strong> <span>${b.phone}</span>
-          <span>${b.date} | ${b.time} | ${b.service}</span>
-          <span style="font-family:monospace; color:var(--gold);">${b.id}</span>
-        </div>
-        <button class="btn btn-danger" onclick="cancelBooking('${b.id}')">إلغاء</button>
-      `;
-      list.appendChild(div);
-    });
-  } catch (e) { console.error(e); }
-}
-
-async function cancelBooking(id) {
-  if (!confirm('واش متأكد بغيت تلغي هاد الحجز؟')) return;
-  try {
-    await apiGet({ action: 'cancel', id: id });
-    await loadAdminData();
-    await syncData();
-  } catch (e) { alert('وقع خطأ.'); }
-}
-
-if (window.location.search.includes('admin=1')) {
-  $('adminModal').classList.add('active');
-  loadAdminData();
-}
-
-/* ============================================================
    INIT
 ============================================================ */
 function tickClock() {
@@ -878,7 +826,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-setInterval(syncData, 10000); // كل 10 ثواني
+setInterval(syncData, 30000);
 </script>
 </body>
 </html>
