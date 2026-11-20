@@ -7,15 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #F8F6F2;
-    --ink: #2C2C2C;
-    --gold: #B58B5D;
-    --gold-light: #D4B895;
-    --card: #FFFFFF;
-    --border: #E8E3DA;
-    --muted: #7A7A7A;
-    --red: #E74C3C;
-    --green: #27AE60;
+    --bg: #F8F6F2; --ink: #2C2C2C; --gold: #B58B5D; --gold-light: #D4B895;
+    --card: #FFFFFF; --border: #E8E3DA; --muted: #7A7A7A;
+    --red: #E74C3C; --green: #27AE60;
     --shadow: 0 8px 30px rgba(0,0,0,0.04);
     --shadow-lg: 0 15px 40px rgba(181, 139, 93, 0.15);
   }
@@ -31,9 +25,12 @@
   .btn-outline:hover{background:rgba(181,139,93,.08)}
   header{position:sticky;top:0;z-index:50;background:rgba(248, 246, 242, 0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:15px 0}
   .container{max-width:1100px;margin:0 auto;padding:0 20px}
-  .nav{display:flex;align-items:center;justify-content:space-between}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
   .logo{font-weight:900;font-size:22px;color:var(--gold);letter-spacing:1px;display:flex;align-items:center;gap:8px}
   .logo-mark{width:30px;height:30px;background:var(--gold);border-radius:50%;display:inline-block}
+  .header-tools{display:flex;align-items:center;gap:10px}
+  .live-clock{font-family:monospace;font-weight:800;font-size:14px;color:var(--gold);background:rgba(181,139,93,.1);padding:8px 12px;border-radius:10px;border:1px solid var(--gold-light);font-variant-numeric:tabular-nums}
+  .lang-btn{padding:8px 14px !important;font-size:13px !important}
   .hero{padding:70px 0 30px;text-align:center;position:relative;overflow:hidden}
   .hero::before{content:"";position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle, rgba(212,184,149,0.2) 0%, transparent 60%);z-index:-1}
   .booking-counter{display:inline-flex;align-items:center;gap:8px;background:rgba(181, 139, 93, 0.1);color:var(--gold);padding:8px 16px;border-radius:30px;font-weight:800;font-size:14px;margin-bottom:20px;border:1px solid var(--gold-light);animation:pulseCounter 2s infinite}
@@ -93,10 +90,12 @@
   .day.selected .dow, .day.selected .dnum, .day.selected .dmon{color:#fff}
   .times-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
   .time{padding:12px 5px;text-align:center;border:2px solid var(--border);border-radius:12px;cursor:pointer;font-weight:800;font-size:14px;transition:all .2s ease;background:var(--bg);color:var(--ink);position:relative}
-  .time:hover:not(.booked){border-color:var(--gold-light)}
-  .time.selected:not(.booked){background:var(--gold);color:#fff;border-color:var(--gold)}
-  .time.booked{background:#f0f0f0;color:#ccc;border-color:#eee;cursor:not-allowed;text-decoration:line-through;opacity:0.7}
-  .time.booked::after{content:"محجوز";position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;text-decoration:none;font-weight:900;box-shadow:0 2px 5px rgba(231,76,60,0.3)}
+  .time:hover:not(.booked):not(.past){border-color:var(--gold-light)}
+  .time.selected:not(.booked):not(.past){background:var(--gold);color:#fff;border-color:var(--gold)}
+  .time.booked, .time.past{background:#f0f0f0;color:#ccc;border-color:#eee;cursor:not-allowed;opacity:0.6}
+  .time.booked{text-decoration:line-through}
+  .time.booked::after{content:attr(data-booked-label);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;text-decoration:none;font-weight:900;box-shadow:0 2px 5px rgba(231,76,60,0.3)}
+  .time.past::after{content:attr(data-past-label);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:#95a5a6;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:900}
   .form-group{margin-bottom:18px}
   .form-group label{display:block;font-size:14px;color:var(--ink);font-weight:800;margin-bottom:8px}
   .form-group input{width:100%;padding:15px;border-radius:12px;border:2px solid var(--border);background:var(--bg);color:var(--ink);font-family:inherit;font-size:16px;transition:all .3s}
@@ -107,6 +106,11 @@
   .confirm-box .tick{width:70px;height:70px;border-radius:50%;background:rgba(39,174,96,.1);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;border:2px solid var(--green)}
   .confirm-box h3{font-size:24px;font-weight:900;color:var(--ink);margin-bottom:10px}
   .confirm-box p{color:var(--muted);font-size:16px;margin-bottom:20px;line-height:1.8}
+  .countdown-card{background:var(--ink);color:#fff;padding:18px;border-radius:14px;margin:20px auto;max-width:400px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.15)}
+  .countdown-card .label{font-size:13px;opacity:.8;margin-bottom:6px}
+  .countdown-card .time-big{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;color:#f1c40f}
+  .countdown-card.started{background:var(--gold)}
+  .countdown-card.ended{background:var(--muted)}
   .services-section{padding:60px 0;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
   .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
   .service-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:25px;text-align:center;transition:all .3s ease;box-shadow:var(--shadow)}
@@ -153,6 +157,7 @@
     .floating-btns { bottom: 20px; left: 20px; }
     .float-btn { width: 55px; height: 55px; }
     .float-btn svg { width: 28px; height: 28px; }
+    .live-clock { display:none; }
   }
 </style>
 </head>
@@ -161,42 +166,46 @@
 <header>
   <div class="container nav">
     <div class="logo"><span class="logo-mark"></span> Barber Shop Sola</div>
-    <a href="https://www.instagram.com/barbershopsola" target="_blank" rel="noopener" class="btn btn-outline" style="padding:10px 20px; font-size:14px;">تابعنا</a>
+    <div class="header-tools">
+      <div class="live-clock" id="liveClock">--:--:--</div>
+      <button class="btn btn-outline lang-btn" id="langBtn">FR</button>
+      <a href="https://www.instagram.com/barbershopsola" target="_blank" rel="noopener" class="btn btn-outline" style="padding:10px 20px; font-size:14px;" data-i18n="followUs">تابعنا</a>
+    </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="container">
-    <div class="booking-counter">🔥 <span id="bookingCount">...</span> شخصاً حجزوا حتى الآن!</div>
-    <h1>احجز موعدك في <span>Barber Shop Sola</span><br>بضغطة زر واحدة.</h1>
-    <p>بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.</p>
+    <div class="booking-counter">🔥 <span id="bookingCount">...</span> <span data-i18n="counterSuffix">شخصاً حجزوا حتى الآن!</span></div>
+    <h1 data-i18n-html="heroTitle">احجز موعدك في <span>Barber Shop Sola</span><br>بضغطة زر واحدة.</h1>
+    <p data-i18n="heroSubtitle">بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.</p>
   </div>
 </section>
 
 <section class="how-it-works">
   <div class="container guide-grid">
     <div class="guide-text">
-      <h2>كيفاش تحجز <span>موعدك؟</span></h2>
-      <p>العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:</p>
+      <h2 data-i18n-html="howTitle">كيفاش تحجز <span>موعدك؟</span></h2>
+      <p data-i18n="howSubtitle">العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:</p>
       <ul class="guide-steps">
-        <li><div class="num">1</div><div><h4>اختار الخدمة</h4><p>حدد واش بغيتي قص، لحية، ولا بجوج.</p></div></li>
-        <li><div class="num">2</div><div><h4>اختار النهار</h4><p>شوف الأيام السبعة القادمة واختار اللي يناسبك.</p></div></li>
-        <li><div class="num">3</div><div><h4>اختار الساعة</h4><p>الساعات المحجوزة كتظهر رمادية، اختار ساعة خاوية.</p></div></li>
-        <li><div class="num">4</div><div><h4>عمر معلوماتك</h4><p>حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.</p></div></li>
+        <li><div class="num">1</div><div><h4 data-i18n="step1Title">اختار الخدمة</h4><p data-i18n="step1Desc">حدد واش بغيتي قص، لحية، ولا بجوج.</p></div></li>
+        <li><div class="num">2</div><div><h4 data-i18n="step2Title">اختار النهار</h4><p data-i18n="step2Desc">شوف الأيام السبعة القادمة واختار اللي يناسبك.</p></div></li>
+        <li><div class="num">3</div><div><h4 data-i18n="step3Title">اختار الساعة</h4><p data-i18n="step3Desc">الساعات المحجوزة كتظهر رمادية، اختار ساعة خاوية.</p></div></li>
+        <li><div class="num">4</div><div><h4 data-i18n="step4Title">عمر معلوماتك</h4><p data-i18n="step4Desc">حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.</p></div></li>
       </ul>
     </div>
     <div class="phone-mockup-wrap">
       <div class="phone-mockup">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-          <div class="phone-header"><h3>احجز موعدك</h3></div>
+          <div class="phone-header"><h3 data-i18n="phoneMockTitle">احجز موعدك</h3></div>
           <div class="phone-content">
-            <div class="p-item active"><strong>قص + لحية</strong><small>45 دقيقة</small></div>
-            <div class="p-item"><strong>قص شعر</strong><small>30 دقيقة</small></div>
+            <div class="p-item active"><strong data-i18n="svc1Name">قص + لحية</strong><small data-i18n="svc1Time">45 دقيقة</small></div>
+            <div class="p-item"><strong data-i18n="svc2Name">قص شعر</strong><small data-i18n="svc2Time">30 دقيقة</small></div>
             <div class="p-grid" style="margin-top: 5px;">
-              <div class="p-time">الاثنين</div>
-              <div class="p-time active">الثلاثاء</div>
-              <div class="p-time">الأربعاء</div>
+              <div class="p-time" data-i18n="monShort">الاثنين</div>
+              <div class="p-time active" data-i18n="tueShort">الثلاثاء</div>
+              <div class="p-time" data-i18n="wedShort">الأربعاء</div>
             </div>
             <div class="p-grid">
               <div class="p-time">11:00</div>
@@ -206,7 +215,7 @@
               <div class="p-time">15:00</div>
               <div class="p-time" style="text-decoration: line-through; opacity: 0.5;">16:00</div>
             </div>
-            <div class="p-btn">تأكيد الحجز</div>
+            <div class="p-btn" data-i18n="confirmBtn">تأكيد الحجز</div>
           </div>
         </div>
       </div>
@@ -216,61 +225,62 @@
 
 <section id="booking" class="booking-section">
   <div class="container">
-    <h2 class="section-title">احجز <span>موعدك الآن</span></h2>
+    <h2 class="section-title" data-i18n-html="bookingTitle">احجز <span>موعدك الآن</span></h2>
     <div class="booking-container">
       <form id="bookingForm">
         <div class="widget-step active" data-step="1">
-          <h3>اختار الخدمة <small>الخطوة 1 من 4</small></h3>
+          <h3><span data-i18n="svcStepTitle">اختار الخدمة</span> <small data-i18n="stepBadge1">الخطوة 1 من 4</small></h3>
           <div class="svc-grid">
-            <div class="svc" data-svc="قص + لحية"><strong>قص + لحية</strong><small>45 دقيقة</small></div>
-            <div class="svc" data-svc="قص"><strong>قص</strong><small>30 دقيقة</small></div>
-            <div class="svc" data-svc="لحية"><strong>لحية</strong><small>20 دقيقة</small></div>
+            <div class="svc" data-svc="قص + لحية"><strong data-i18n="svc1Name">قص + لحية</strong><small data-i18n="svc1Time">45 دقيقة</small></div>
+            <div class="svc" data-svc="قص"><strong data-i18n="svc2Name">قص</strong><small data-i18n="svc2Time">30 دقيقة</small></div>
+            <div class="svc" data-svc="لحية"><strong data-i18n="svc3Name">لحية</strong><small data-i18n="svc3Time">20 دقيقة</small></div>
           </div>
           <div class="widget-nav">
-            <button type="button" class="btn btn-primary" id="next1" disabled>التالي</button>
+            <button type="button" class="btn btn-primary" id="next1" disabled data-i18n="nextBtn">التالي</button>
           </div>
         </div>
         <div class="widget-step" data-step="2">
-          <h3>اختار النهار <small>الخطوة 2 من 4</small></h3>
+          <h3><span data-i18n="dayStepTitle">اختار النهار</span> <small data-i18n="stepBadge2">الخطوة 2 من 4</small></h3>
           <div class="days-grid" id="daysContainer"></div>
           <div class="widget-nav">
-            <button type="button" class="btn btn-outline" data-back="1">رجوع</button>
-            <button type="button" class="btn btn-primary" id="next2" disabled>التالي</button>
+            <button type="button" class="btn btn-outline" data-back="1" data-i18n="backBtn">رجوع</button>
+            <button type="button" class="btn btn-primary" id="next2" disabled data-i18n="nextBtn">التالي</button>
           </div>
         </div>
         <div class="widget-step" data-step="3">
-          <h3>اختار الساعة <small>الخطوة 3 من 4</small></h3>
+          <h3><span data-i18n="timeStepTitle">اختار الساعة</span> <small data-i18n="stepBadge3">الخطوة 3 من 4</small></h3>
           <div class="times-grid" id="timesContainer"></div>
           <div class="widget-nav">
-            <button type="button" class="btn btn-outline" data-back="2">رجوع</button>
-            <button type="button" class="btn btn-primary" id="next3" disabled>التالي</button>
+            <button type="button" class="btn btn-outline" data-back="2" data-i18n="backBtn">رجوع</button>
+            <button type="button" class="btn btn-primary" id="next3" disabled data-i18n="nextBtn">التالي</button>
           </div>
         </div>
         <div class="widget-step" data-step="4">
-          <h3>معلوماتك <small>الخطوة 4 من 4</small></h3>
+          <h3><span data-i18n="infoStepTitle">معلوماتك</span> <small data-i18n="stepBadge4">الخطوة 4 من 4</small></h3>
           <div class="form-group">
-            <label>الاسم الكامل</label>
-            <input type="text" id="clientName" name="name" placeholder="اكتب اسمك هنا" required>
+            <label data-i18n="nameLabel">الاسم الكامل</label>
+            <input type="text" id="clientName" name="name" placeholder="اكتب اسمك هنا" required data-i18n-placeholder="namePlaceholder">
           </div>
           <div class="form-group">
-            <label>رقم الهاتف (واتساب)</label>
+            <label data-i18n="phoneLabel">رقم الهاتف (واتساب)</label>
             <input type="tel" id="clientPhone" name="phone" placeholder="06XXXXXXXX" required>
           </div>
           <input type="hidden" name="service" id="hiddenService">
           <input type="hidden" name="day" id="hiddenDay">
           <input type="hidden" name="time" id="hiddenTime">
           <div class="widget-nav">
-            <button type="button" class="btn btn-outline" data-back="3">رجوع</button>
-            <button type="button" class="btn btn-primary" id="submitBtn">تأكيد الحجز</button>
+            <button type="button" class="btn btn-outline" data-back="3" data-i18n="backBtn">رجوع</button>
+            <button type="button" class="btn btn-primary" id="submitBtn" data-i18n="confirmBtn">تأكيد الحجز</button>
           </div>
         </div>
       </form>
       <div class="widget-step" data-step="5">
         <div class="confirm-box">
           <div class="tick">✓</div>
-          <h3>تم تأكيد حجزك!</h3>
+          <h3 data-i18n="successTitle">تم تأكيد حجزك!</h3>
           <p id="confirm-text">...</p>
-          <button class="btn btn-outline" onclick="location.reload()">حجز موعد آخر</button>
+          <div id="countdownContainer"></div>
+          <button class="btn btn-outline" onclick="location.reload()" data-i18n="bookAnother">حجز موعد آخر</button>
         </div>
       </div>
     </div>
@@ -279,51 +289,50 @@
 
 <section class="services-section">
   <div class="container">
-    <h2 class="section-title">خدماتنا <span>وأثمنتها</span></h2>
+    <h2 class="section-title" data-i18n-html="servicesTitle">خدماتنا <span>وأثمنتها</span></h2>
     <div class="services-grid">
-      <div class="service-card"><h4>قص شعر</h4><div class="price">25 درهم</div><p>قص عصري يناسب ستايلك.</p></div>
-      <div class="service-card"><h4>تحديد لحية</h4><div class="price">15 درهم</div><p>تحديد وتشذيب احترافي.</p></div>
-      <div class="service-card"><h4>قص + لحية</h4><div class="price">35 درهم</div><p>الباقة الكاملة للإطلالة المثالية.</p></div>
-      <div class="service-card"><h4>تنظيف بشرة</h4><div class="price">30 درهم</div><p>عناية وانتعاش للوجه.</p></div>
+      <div class="service-card"><h4 data-i18n="cardSvc1">قص شعر</h4><div class="price" data-i18n="cardSvc1Price">25 درهم</div><p data-i18n="cardSvc1Desc">قص عصري يناسب ستايلك.</p></div>
+      <div class="service-card"><h4 data-i18n="cardSvc2">تحديد لحية</h4><div class="price" data-i18n="cardSvc2Price">15 درهم</div><p data-i18n="cardSvc2Desc">تحديد وتشذيب احترافي.</p></div>
+      <div class="service-card"><h4 data-i18n="cardSvc3">قص + لحية</h4><div class="price" data-i18n="cardSvc3Price">35 درهم</div><p data-i18n="cardSvc3Desc">الباقة الكاملة للإطلالة المثالية.</p></div>
+      <div class="service-card"><h4 data-i18n="cardSvc4">تنظيف بشرة</h4><div class="price" data-i18n="cardSvc4Price">30 درهم</div><p data-i18n="cardSvc4Desc">عناية وانتعاش للوجه.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ✅ تعديل: ساعات العمل 7 أيام -->
 <section class="info-section">
   <div class="container info-grid">
     <div class="info-card">
-      <h3>🕒 ساعات العمل</h3>
+      <h3 data-i18n="hoursTitle">🕒 ساعات العمل</h3>
       <ul class="hours-list">
-        <li>الاثنين - الأحد <span>11:00 ص - 10:00 م</span></li>
+        <li><span data-i18n="hoursDays">الاثنين - الأحد</span> <span data-i18n="hoursRange">11:00 ص - 10:00 م</span></li>
       </ul>
     </div>
     <div class="info-card">
-      <h3>📍 مكان المحل</h3>
-      <p class="location-text">
+      <h3 data-i18n="locationTitle">📍 مكان المحل</h3>
+      <p class="location-text" data-i18n-html="locationText">
         <strong>العنوان:</strong> طنجة، المغرب.<br>
         اضغط على الزر باش تفتح الموقع فـ Google Maps.
       </p>
-      <a href="https://www.google.com/maps/search/?api=1&query=35.758891,-5.848048" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;">افتح في خرائط جوجل</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=35.758891,-5.848048" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;" data-i18n="openMaps">افتح في خرائط جوجل</a>
     </div>
   </div>
 </section>
 
 <section class="faq-section">
   <div class="container">
-    <h2 class="section-title">أسئلة <span>شائعة</span></h2>
+    <h2 class="section-title" data-i18n-html="faqTitle">أسئلة <span>شائعة</span></h2>
     <div style="max-width:800px; margin:0 auto;">
       <div class="faq-item">
-        <div class="faq-q">واش هاد الحجز ببلاش؟</div>
-        <div class="faq-a">نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.</div>
+        <div class="faq-q" data-i18n="faq1Q">واش هاد الحجز ببلاش؟</div>
+        <div class="faq-a" data-i18n="faq1A">نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">كيفاش كنعرف أن الموعد تأكد؟</div>
-        <div class="faq-a">بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.</div>
+        <div class="faq-q" data-i18n="faq2Q">كيفاش كنعرف أن الموعد تأكد؟</div>
+        <div class="faq-a" data-i18n="faq2A">بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">واش يمكن نحجز نفس الساعة من جهاز آخر؟</div>
-        <div class="faq-a">لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان رمادية عند الجميع.</div>
+        <div class="faq-q" data-i18n="faq3Q">واش يمكن نحجز نفس الساعة من جهاز آخر؟</div>
+        <div class="faq-a" data-i18n="faq3A">لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان رمادية عند الجميع.</div>
       </div>
     </div>
   </div>
@@ -331,8 +340,8 @@
 
 <footer>
   <div class="container">
-    <p>© 2024 Barber Shop Sola. جميع الحقوق محفوظة.</p>
-    <p>صُمم بواسطة <a href="#">Medwork</a></p>
+    <p data-i18n="footerCopyright">© 2024 Barber Shop Sola. جميع الحقوق محفوظة.</p>
+    <p><span data-i18n="footerDesignedBy">صُمم بواسطة</span> <a href="#">Medwork</a></p>
   </div>
 </footer>
 
@@ -346,242 +355,567 @@
 </div>
 
 <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyChkz1se8c_xfDBMvE2rgnG9S1DFMzpnDjK14lYbqpVFbcPkghlCZOn7OLgVipJIpF/exec';
-  const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
-  const dayNamesAr   = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const monthNamesAr = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
+/* ============================================================
+   CONFIG
+============================================================ */
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyChkz1se8c_xfDBMvE2rgnG9S1DFMzpnDjK14lYbqpVFbcPkghlCZOn7OLgVipJIpF/exec';
+const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
 
-  const state = { service: null, date: null, dayName: null, time: null };
-  let bookedSlots = [];
-  let currentCount = 0;
+/* مدة كل خدمة بالدقايق — كتستعمل فـ التداخل */
+const SERVICE_DURATION = {
+  'قص + لحية': 45,
+  'قص':        30,
+  'لحية':      20
+};
+const MAX_DURATION = 45; // للاحتياط
 
-  function toLocalISO(d) {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
+/* ============================================================
+   i18n
+============================================================ */
+const I18N = {
+  ar: {
+    dir: 'rtl',
+    langBtn: 'FR',
+    followUs: 'تابعنا',
+    counterSuffix: 'شخصاً حجزوا حتى الآن!',
+    heroTitle: 'احجز موعدك في <span>Barber Shop Sola</span><br>بضغطة زر واحدة.',
+    heroSubtitle: 'بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.',
+    howTitle: 'كيفاش تحجز <span>موعدك؟</span>',
+    howSubtitle: 'العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:',
+    step1Title: 'اختار الخدمة', step1Desc: 'حدد واش بغيتي قص، لحية، ولا بجوج.',
+    step2Title: 'اختار النهار', step2Desc: 'شوف الأيام السبعة القادمة واختار اللي يناسبك.',
+    step3Title: 'اختار الساعة', step3Desc: 'الساعات المحجوزة كتظهر رمادية، اختار ساعة خاوية.',
+    step4Title: 'عمر معلوماتك', step4Desc: 'حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.',
+    phoneMockTitle: 'احجز موعدك',
+    svc1Name: 'قص + لحية', svc1Time: '45 دقيقة',
+    svc2Name: 'قص', svc2Time: '30 دقيقة',
+    svc3Name: 'لحية', svc3Time: '20 دقيقة',
+    monShort: 'الاثنين', tueShort: 'الثلاثاء', wedShort: 'الأربعاء',
+    confirmBtn: 'تأكيد الحجز',
+    bookingTitle: 'احجز <span>موعدك الآن</span>',
+    svcStepTitle: 'اختار الخدمة', stepBadge1: 'الخطوة 1 من 4',
+    dayStepTitle: 'اختار النهار', stepBadge2: 'الخطوة 2 من 4',
+    timeStepTitle: 'اختار الساعة', stepBadge3: 'الخطوة 3 من 4',
+    infoStepTitle: 'معلوماتك', stepBadge4: 'الخطوة 4 من 4',
+    nextBtn: 'التالي', backBtn: 'رجوع',
+    nameLabel: 'الاسم الكامل', namePlaceholder: 'اكتب اسمك هنا',
+    phoneLabel: 'رقم الهاتف (واتساب)',
+    successTitle: 'تم تأكيد حجزك!',
+    bookAnother: 'حجز موعد آخر',
+    servicesTitle: 'خدماتنا <span>وأثمنتها</span>',
+    cardSvc1: 'قص شعر', cardSvc1Price: '25 درهم', cardSvc1Desc: 'قص عصري يناسب ستايلك.',
+    cardSvc2: 'تحديد لحية', cardSvc2Price: '15 درهم', cardSvc2Desc: 'تحديد وتشذيب احترافي.',
+    cardSvc3: 'قص + لحية', cardSvc3Price: '35 درهم', cardSvc3Desc: 'الباقة الكاملة للإطلالة المثالية.',
+    cardSvc4: 'تنظيف بشرة', cardSvc4Price: '30 درهم', cardSvc4Desc: 'عناية وانتعاش للوجه.',
+    hoursTitle: '🕒 ساعات العمل',
+    hoursDays: 'الاثنين - الأحد', hoursRange: '11:00 ص - 10:00 م',
+    locationTitle: '📍 مكان المحل',
+    locationText: '<strong>العنوان:</strong> طنجة، المغرب.<br>اضغط على الزر باش تفتح الموقع فـ Google Maps.',
+    openMaps: 'افتح في خرائط جوجل',
+    faqTitle: 'أسئلة <span>شائعة</span>',
+    faq1Q: 'واش هاد الحجز ببلاش؟',
+    faq1A: 'نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.',
+    faq2Q: 'كيفاش كنعرف أن الموعد تأكد؟',
+    faq2A: 'بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.',
+    faq3Q: 'واش يمكن نحجز نفس الساعة من جهاز آخر؟',
+    faq3A: 'لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان رمادية عند الجميع.',
+    footerCopyright: '© 2024 Barber Shop Sola. جميع الحقوق محفوظة.',
+    footerDesignedBy: 'صُمم بواسطة',
+    // أخطاء
+    errNamePhone: 'عافاك عمر الاسم ورقم الهاتف.',
+    errAllSteps: 'المرجو إكمال جميع الخطوات.',
+    errSlotTaken: 'هاد الموعد محجوز مسبقاً، اختار ساعة أخرى.',
+    errSlotTakenNow: 'هاد الموعد تحجز دابا من طرف شخص آخر. اختار ساعة أخرى.',
+    errServerBusy: 'السيرفر مشغول، عاود جرب بعد ثانية.',
+    errNetwork: 'وقع خطأ في الاتصال، عاود جرب.',
+    errUnexpected: 'وقع خطأ غير متوقع، عاود جرب.',
+    // success card
+    bookingIdLabel: 'رقم الحجز',
+    lblService: 'الخدمة', lblDate: 'التاريخ', lblTime: 'الساعة', lblName: 'الاسم', lblPhone: 'الهاتف',
+    cardNote: '📸 خد لقطة ديال هاد البطاقة باش توريها نهار الموعد',
+    // countdown
+    countdownIn: 'موعدك بعد', countdownStarted: 'الموعد بدا دابا 🕐', countdownEnded: 'الموعد سال — نتمنى تكون خدمتك كانت مزيانة',
+    hShort: 'س', mShort: 'د', sShort: 'ث',
+    // slots
+    selectDayFirst: 'الرجاء اختيار النهار أولاً',
+    bookedLabel: 'محجوز', pastLabel: 'مضى',
+    days: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+    months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
+    formatTime: (h, m) => {
+      const period = h < 12 ? 'صباحاً' : 'مساءً';
+      const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+      return `${h12}:${String(m).padStart(2,'0')} ${period}`;
+    }
+  },
+  fr: {
+    dir: 'ltr',
+    langBtn: 'AR',
+    followUs: 'Suivez-nous',
+    counterSuffix: 'personne(s) ont réservé !',
+    heroTitle: 'Réservez votre rendez-vous chez <span>Barber Shop Sola</span><br>en un clic.',
+    heroSubtitle: 'Sans attente, sans WhatsApp. Choisissez le service et l\'heure qui vous conviennent, et recevez une confirmation immédiate sur votre téléphone.',
+    howTitle: 'Comment <span>réserver ?</span>',
+    howSubtitle: 'Le processus prend moins d\'une minute. Suivez ces étapes simples :',
+    step1Title: 'Choisissez le service', step1Desc: 'Sélectionnez coupe, barbe ou les deux.',
+    step2Title: 'Choisissez le jour', step2Desc: 'Consultez les 7 prochains jours et choisissez celui qui vous convient.',
+    step3Title: 'Choisissez l\'heure', step3Desc: 'Les créneaux réservés s\'affichent en gris, choisissez-en un libre.',
+    step4Title: 'Vos informations', step4Desc: 'Entrez votre nom et votre téléphone, recevez votre numéro de réservation instantanément.',
+    phoneMockTitle: 'Réservez votre RDV',
+    svc1Name: 'Coupe + barbe', svc1Time: '45 min',
+    svc2Name: 'Coupe', svc2Time: '30 min',
+    svc3Name: 'Barbe', svc3Time: '20 min',
+    monShort: 'Lun', tueShort: 'Mar', wedShort: 'Mer',
+    confirmBtn: 'Confirmer',
+    bookingTitle: 'Réservez <span>maintenant</span>',
+    svcStepTitle: 'Choisir le service', stepBadge1: 'Étape 1 sur 4',
+    dayStepTitle: 'Choisir le jour', stepBadge2: 'Étape 2 sur 4',
+    timeStepTitle: 'Choisir l\'heure', stepBadge3: 'Étape 3 sur 4',
+    infoStepTitle: 'Vos informations', stepBadge4: 'Étape 4 sur 4',
+    nextBtn: 'Suivant', backBtn: 'Retour',
+    nameLabel: 'Nom complet', namePlaceholder: 'Entrez votre nom',
+    phoneLabel: 'Téléphone (WhatsApp)',
+    successTitle: 'Réservation confirmée !',
+    bookAnother: 'Nouvelle réservation',
+    servicesTitle: 'Nos services <span>et tarifs</span>',
+    cardSvc1: 'Coupe de cheveux', cardSvc1Price: '25 DH', cardSvc1Desc: 'Coupe moderne adaptée à votre style.',
+    cardSvc2: 'Taille de barbe', cardSvc2Price: '15 DH', cardSvc2Desc: 'Taille et entretien professionnel.',
+    cardSvc3: 'Coupe + barbe', cardSvc3Price: '35 DH', cardSvc3Desc: 'Le pack complet pour un look parfait.',
+    cardSvc4: 'Soin du visage', cardSvc4Price: '30 DH', cardSvc4Desc: 'Soin et fraîcheur pour le visage.',
+    hoursTitle: '🕒 Horaires',
+    hoursDays: 'Lundi - Dimanche', hoursRange: '11h00 - 22h00',
+    locationTitle: '📍 Localisation',
+    locationText: '<strong>Adresse :</strong> Tanger, Maroc.<br>Cliquez sur le bouton pour ouvrir Google Maps.',
+    openMaps: 'Ouvrir dans Google Maps',
+    faqTitle: 'Questions <span>fréquentes</span>',
+    faq1Q: 'La réservation est-elle gratuite ?',
+    faq1A: 'Oui, la réservation est entièrement gratuite. Vous choisissez l\'heure et vous venez au rendez-vous.',
+    faq2Q: 'Comment savoir si mon RDV est confirmé ?',
+    faq2A: 'Après confirmation, vous recevez une carte avec votre numéro de réservation unique. Faites une capture d\'écran et présentez-la le jour du rendez-vous.',
+    faq3Q: 'Peut-on réserver le même créneau depuis un autre appareil ?',
+    faq3A: 'Non, le serveur vérifie toutes les réservations sur tous les appareils. Tout créneau réservé s\'affiche en gris pour tout le monde.',
+    footerCopyright: '© 2024 Barber Shop Sola. Tous droits réservés.',
+    footerDesignedBy: 'Conçu par',
+    errNamePhone: 'Veuillez saisir votre nom et votre numéro.',
+    errAllSteps: 'Veuillez compléter toutes les étapes.',
+    errSlotTaken: 'Ce créneau est déjà réservé, choisissez-en un autre.',
+    errSlotTakenNow: 'Ce créneau vient d\'être réservé par quelqu\'un d\'autre. Choisissez-en un autre.',
+    errServerBusy: 'Serveur occupé, réessayez dans un instant.',
+    errNetwork: 'Erreur de connexion, réessayez.',
+    errUnexpected: 'Erreur inattendue, réessayez.',
+    bookingIdLabel: 'N° de réservation',
+    lblService: 'Service', lblDate: 'Date', lblTime: 'Heure', lblName: 'Nom', lblPhone: 'Téléphone',
+    cardNote: '📸 Faites une capture d\'écran de cette carte à présenter le jour du RDV',
+    countdownIn: 'Votre RDV dans', countdownStarted: 'Votre RDV commence 🕐', countdownEnded: 'RDV terminé — merci de votre visite',
+    hShort: 'h', mShort: 'min', sShort: 's',
+    selectDayFirst: 'Veuillez d\'abord choisir un jour',
+    bookedLabel: 'Réservé', pastLabel: 'Passé',
+    days: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+    months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+    formatTime: (h, m) => `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`
   }
-  function formatArabicDate(isoDate) {
-    const d = new Date(isoDate + 'T12:00:00');
-    return `${dayNamesAr[d.getDay()]} ${d.getDate()} ${monthNamesAr[d.getMonth()]} ${d.getFullYear()}`;
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+let lang = localStorage.getItem('sola_lang') || 'ar';
+const t = () => I18N[lang];
+
+const state = { service: null, date: null, dayName: null, time: null };
+let bookedSlots = [];
+let currentCount = 0;
+let countdownInterval = null;
+
+/* ============================================================
+   HELPERS
+============================================================ */
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+
+function toLocalISO(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function parseDT(dateStr, timeStr) {
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const [h,mi]  = timeStr.split(':').map(Number);
+  return new Date(y, m-1, d, h, mi, 0);
+}
+function formatArabicDate(isoDate) {
+  const d = new Date(isoDate + 'T12:00:00');
+  const tt = t();
+  return `${tt.days[d.getDay()]} ${d.getDate()} ${tt.months[d.getMonth()]} ${d.getFullYear()}`;
+}
+function formatTime12(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  return t().formatTime(h, m);
+}
+
+/* ============================================================
+   LIVE CLOCK
+============================================================ */
+function tickClock() {
+  const now = new Date();
+  const el = $('liveClock');
+  if (el) el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+/* ============================================================
+   LANGUAGE
+============================================================ */
+function applyLang() {
+  const tt = t();
+  document.documentElement.dir = tt.dir;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (tt[key] !== undefined) el.textContent = tt[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (tt[key] !== undefined) el.innerHTML = tt[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (tt[key] !== undefined) el.placeholder = tt[key];
+  });
+
+  $('langBtn').textContent = tt.langBtn;
+}
+
+$('langBtn').addEventListener('click', () => {
+  lang = (lang === 'ar') ? 'fr' : 'ar';
+  localStorage.setItem('sola_lang', lang);
+  applyLang();
+  renderDays();     // re-render with new day names
+  renderTimes();    // re-render with new labels
+  if (state.date && state.time) updateCountdown();
+});
+
+/* ============================================================
+   API
+============================================================ */
+function apiGet(params) {
+  const url = scriptURL + '?' + new URLSearchParams({ ...params, _t: Date.now() }).toString();
+  return fetch(url, { method: 'GET' }).then(r => r.json());
+}
+
+function loadBookedSlots() {
+  return apiGet({ action: 'getBookedSlots' })
+    .then(data => { bookedSlots = data.slots || []; })
+    .catch(err => { console.error('load slots failed:', err); });
+}
+function loadCount() {
+  return apiGet({ action: 'getCount' })
+    .then(data => {
+      currentCount = data.count || 0;
+      $('bookingCount').innerText = currentCount;
+    })
+    .catch(err => { console.error('load count failed:', err); });
+}
+
+/* ============================================================
+   SLOTS
+============================================================ */
+function slotOverlapsBooked(dateISO, timeStr, serviceName) {
+  const duration = SERVICE_DURATION[serviceName] || MAX_DURATION;
+  const newStart = parseDT(dateISO, timeStr);
+  const newEnd   = new Date(newStart.getTime() + duration * 60000);
+
+  for (const key of bookedSlots) {
+    const [bDate, bTime] = key.split('_');
+    if (bDate !== dateISO) continue;
+    const bStart = parseDT(bDate, bTime);
+    const bEnd   = new Date(bStart.getTime() + MAX_DURATION * 60000);
+    if (newStart < bEnd && newEnd > bStart) return true;
   }
-  function formatTime12(t) {
-    const [h, m] = t.split(':').map(Number);
-    const period = h < 12 ? 'صباحاً' : 'مساءً';
-    const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
-    return `${h12}:${String(m).padStart(2, '0')} ${period}`;
+  return false;
+}
+
+function renderDays() {
+  const container = $('daysContainer');
+  const tt = t();
+  container.innerHTML = '';
+  const today = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const iso = toLocalISO(d);
+
+    const chip = document.createElement('div');
+    chip.className = 'day';
+    chip.dataset.date = iso;
+    chip.innerHTML = `
+      <div class="dow">${tt.days[d.getDay()]}</div>
+      <div class="dnum">${d.getDate()}</div>
+      <div class="dmon">${tt.months[d.getMonth()]}</div>
+    `;
+
+    if (state.date === iso) chip.classList.add('selected');
+
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.day').forEach(x => x.classList.remove('selected'));
+      chip.classList.add('selected');
+      state.date = iso;
+      state.dayName = tt.days[d.getDay()];
+      $('hiddenDay').value = iso;
+      state.time = null;
+      $('next3').disabled = true;
+      renderTimes();
+      $('next2').disabled = false;
+    });
+
+    container.appendChild(chip);
   }
-  function apiGet(params) {
-    const url = scriptURL + '?' + new URLSearchParams({ ...params, _t: Date.now() }).toString();
-    return fetch(url, { method: 'GET' }).then(r => r.json());
+}
+
+function renderTimes() {
+  const timesContainer = $('timesContainer');
+  const tt = t();
+  timesContainer.innerHTML = '';
+
+  if (!state.date) {
+    timesContainer.innerHTML =
+      `<div style="grid-column: 1 / -1; text-align: center; color: var(--muted);">${tt.selectDayFirst}</div>`;
+    return;
   }
 
-  function loadBookedSlots() {
-    return apiGet({ action: 'getBookedSlots' })
-      .then(data => { bookedSlots = data.slots || []; })
-      .catch(err => { console.error('load slots failed:', err); });
-  }
-  function loadCount() {
-    return apiGet({ action: 'getCount' })
-      .then(data => {
-        currentCount = data.count || 0;
-        document.getElementById('bookingCount').innerText = currentCount;
-      })
-      .catch(err => { console.error('load count failed:', err); });
-  }
+  const todayISO = toLocalISO(new Date());
+  const now = new Date();
 
-  // ✅ تعديل: 7 أيام كاملة بدون تخطي أي يوم
-  function generateDays() {
-    const container = document.getElementById('daysContainer');
-    container.innerHTML = '';
+  allTimes.forEach(time => {
+    const div = document.createElement('div');
+    div.className = 'time';
+    div.innerText = time;
+    div.dataset.time = time;
 
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-
-      const iso = toLocalISO(d);
-      const chip = document.createElement('div');
-      chip.className = 'day';
-      chip.dataset.date = iso;
-      chip.dataset.dayName = dayNamesAr[d.getDay()];
-      chip.innerHTML = `
-        <div class="dow">${dayNamesAr[d.getDay()]}</div>
-        <div class="dnum">${d.getDate()}</div>
-        <div class="dmon">${monthNamesAr[d.getMonth()]}</div>
-      `;
-
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.day').forEach(x => x.classList.remove('selected'));
-        chip.classList.add('selected');
-        state.date = iso;
-        state.dayName = dayNamesAr[d.getDay()];
-        document.getElementById('hiddenDay').value = iso;
-        state.time = null;
-        document.getElementById('next3').disabled = true;
-        renderTimes();
-        document.getElementById('next2').disabled = false;
+    // مضى؟
+    if (state.date === todayISO && parseDT(state.date, time) <= now) {
+      div.classList.add('past');
+      div.dataset.pastLabel = tt.pastLabel;
+    }
+    // محجوز (تداخل)؟
+    else if (slotOverlapsBooked(state.date, time, state.service)) {
+      div.classList.add('booked');
+      div.dataset.bookedLabel = tt.bookedLabel;
+    }
+    // متاح
+    else {
+      if (state.time === time) div.classList.add('selected');
+      div.addEventListener('click', () => {
+        document.querySelectorAll('.time').forEach(x => x.classList.remove('selected'));
+        div.classList.add('selected');
+        state.time = time;
+        $('hiddenTime').value = time;
+        $('next3').disabled = false;
       });
-
-      container.appendChild(chip);
     }
+    timesContainer.appendChild(div);
+  });
+}
+
+/* ============================================================
+   STEPS
+============================================================ */
+function showStep(n) {
+  document.querySelectorAll('.widget-step').forEach(s => {
+    s.classList.toggle('active', s.dataset.step == n);
+  });
+  $('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.querySelectorAll('.svc').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.svc').forEach(x => x.classList.remove('selected'));
+    el.classList.add('selected');
+    state.service = el.dataset.svc;
+    $('hiddenService').value = state.service;
+    $('next1').disabled = false;
+  });
+});
+$('next1').addEventListener('click', () => showStep(2));
+$('next2').addEventListener('click', () => showStep(3));
+$('next3').addEventListener('click', () => showStep(4));
+document.querySelectorAll('[data-back]').forEach(el => {
+  el.addEventListener('click', () => showStep(el.dataset.back));
+});
+
+/* ============================================================
+   SUBMIT
+============================================================ */
+$('submitBtn').addEventListener('click', async function (e) {
+  e.preventDefault();
+  const btn = this;
+  const tt = t();
+  const name  = $('clientName').value.trim();
+  const phone = $('clientPhone').value.trim();
+
+  if (!name || !phone)   { alert(tt.errNamePhone); return; }
+  if (!state.service || !state.date || !state.time) { alert(tt.errAllSteps); return; }
+
+  const slotKey = state.date + '_' + state.time;
+  if (bookedSlots.includes(slotKey) ||
+      slotOverlapsBooked(state.date, state.time, state.service)) {
+    alert(tt.errSlotTaken);
+    showStep(3);
+    return;
   }
 
-  function renderTimes() {
-    const timesContainer = document.getElementById('timesContainer');
-    timesContainer.innerHTML = '';
+  btn.innerText = tt.countdownIn ? '...' : '...';
+  btn.innerText = (lang === 'ar') ? 'جاري الإرسال...' : 'Envoi...';
+  btn.disabled = true;
 
-    if (!state.date) {
-      timesContainer.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--muted);">الرجاء اختيار النهار أولاً</div>';
-      return;
-    }
-
-    allTimes.forEach(time => {
-      const div = document.createElement('div');
-      div.className = 'time';
-      div.innerText = time;
-      div.dataset.time = time;
-
-      const slotKey = state.date + '_' + time;
-      if (bookedSlots.includes(slotKey)) {
-        div.classList.add('booked');
-      } else {
-        div.addEventListener('click', () => {
-          document.querySelectorAll('.time').forEach(x => x.classList.remove('selected'));
-          div.classList.add('selected');
-          state.time = time;
-          document.getElementById('hiddenTime').value = time;
-          document.getElementById('next3').disabled = false;
-        });
-      }
-      timesContainer.appendChild(div);
+  try {
+    const data = await apiGet({
+      action: 'book',
+      date: state.date,
+      day: state.dayName,
+      time: state.time,
+      service: state.service,
+      name: name,
+      phone: phone
     });
-  }
 
-  function showStep(n) {
-    document.querySelectorAll('.widget-step').forEach(s => {
-      s.classList.toggle('active', s.dataset.step == n);
-    });
-    document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  document.querySelectorAll('.svc').forEach(el => {
-    el.addEventListener('click', () => {
-      document.querySelectorAll('.svc').forEach(x => x.classList.remove('selected'));
-      el.classList.add('selected');
-      state.service = el.dataset.svc;
-      document.getElementById('hiddenService').value = state.service;
-      document.getElementById('next1').disabled = false;
-    });
-  });
-  document.getElementById('next1').addEventListener('click', () => showStep(2));
-  document.getElementById('next2').addEventListener('click', () => showStep(3));
-  document.getElementById('next3').addEventListener('click', () => showStep(4));
-  document.querySelectorAll('[data-back]').forEach(el => {
-    el.addEventListener('click', () => showStep(el.dataset.back));
-  });
-
-  document.getElementById('submitBtn').addEventListener('click', async function (e) {
-    e.preventDefault();
-    const btn = this;
-    const name  = document.getElementById('clientName').value.trim();
-    const phone = document.getElementById('clientPhone').value.trim();
-
-    if (!name || !phone) { alert('عافاك عمر الاسم ورقم الهاتف.'); return; }
-    if (!state.service || !state.date || !state.time) { alert('المرجو إكمال جميع الخطوات.'); return; }
-
-    const slotKey = state.date + '_' + state.time;
-    if (bookedSlots.includes(slotKey)) {
-      alert('هاد الموعد محجوز مسبقاً، اختار ساعة أخرى.');
-      showStep(3);
-      return;
-    }
-
-    btn.innerText = 'جاري الإرسال...';
-    btn.disabled = true;
-
-    try {
-      const data = await apiGet({
-        action: 'book',
-        date: state.date,
-        day: state.dayName,
-        time: state.time,
-        service: state.service,
-        name: name,
-        phone: phone
-      });
-
-      if (data.status === 'OK') {
-        const cardHTML = `
-          <div style="background:#fff; border:2px solid var(--gold); border-radius:16px; padding:20px; margin:20px auto; text-align:right; max-width:400px; box-shadow: 0 10px 30px rgba(181,139,93,.2);">
-            <div style="text-align:center; padding-bottom:14px; border-bottom:1px dashed var(--border); margin-bottom:14px;">
-              <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">رقم الحجز</div>
-              <div style="font-size:22px; font-weight:900; color:var(--gold); letter-spacing:1px; font-family:monospace;">${data.bookingId}</div>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:6px 0;">
-              <span style="color:var(--muted);">الخدمة:</span><strong>${state.service}</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:6px 0;">
-              <span style="color:var(--muted);">التاريخ:</span><strong>${formatArabicDate(state.date)}</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:6px 0;">
-              <span style="color:var(--muted);">الساعة:</span><strong>${formatTime12(state.time)}</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:6px 0;">
-              <span style="color:var(--muted);">الاسم:</span><strong>${name}</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:6px 0;">
-              <span style="color:var(--muted);">الهاتف:</span><strong dir="ltr">${phone}</strong>
-            </div>
-            <div style="background:rgba(181,139,93,.1); padding:12px; border-radius:10px; margin-top:14px; text-align:center; font-size:13px; color:var(--ink); font-weight:700;">
-              📸 خد لقطة ديال هاد البطاقة باش توريها نهار الموعد
-            </div>
-          </div>
-        `;
-        document.getElementById('confirm-text').innerHTML = cardHTML;
-        showStep(5);
-        await loadBookedSlots();
-        await loadCount();
-
-      } else if (data.status === 'TAKEN') {
-        alert('هاد الموعد تحجز دابا من طرف شخص آخر. اختار ساعة أخرى.');
-        await loadBookedSlots();
-        renderTimes();
-        showStep(3);
-      } else if (data.status === 'BUSY') {
-        alert('السيرفر مشغول، عاود جرب بعد ثانية.');
-      } else {
-        alert('وقع خطأ غير متوقع، عاود جرب.');
-        console.error('Server response:', data);
-      }
-    } catch (err) {
-      console.error('Booking error:', err);
-      alert('وقع خطأ في الاتصال، عاود جرب.');
-    } finally {
-      btn.innerText = 'تأكيد الحجز';
-      btn.disabled = false;
-    }
-  });
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    generateDays();
-    try {
+    if (data.status === 'OK') {
+      renderSuccessCard(data, name, phone);
+      showStep(5);
       await loadBookedSlots();
       await loadCount();
-    } catch (err) {
-      console.warn('Initial sync failed:', err);
+    } else if (data.status === 'TAKEN') {
+      alert(tt.errSlotTakenNow);
+      await loadBookedSlots();
+      renderTimes();
+      showStep(3);
+    } else if (data.status === 'BUSY') {
+      alert(tt.errServerBusy);
+    } else {
+      alert(tt.errUnexpected);
+      console.error('Server response:', data);
     }
-  });
+  } catch (err) {
+    console.error('Booking error:', err);
+    alert(tt.errNetwork);
+  } finally {
+    btn.innerText = t().confirmBtn;
+    btn.disabled = false;
+  }
+});
 
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.addEventListener('click', () => {
-      const item = q.parentElement;
-      const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!wasOpen) item.classList.add('open');
-    });
+/* ============================================================
+   SUCCESS SCREEN + COUNTDOWN
+============================================================ */
+function renderSuccessCard(data, name, phone) {
+  const tt = t();
+  const cardHTML = `
+    <div style="background:#fff; border:2px solid var(--gold); border-radius:16px; padding:20px; margin:20px auto; text-align:${tt.dir === 'rtl' ? 'right' : 'left'}; max-width:400px; box-shadow: 0 10px 30px rgba(181,139,93,.2);">
+      <div style="text-align:center; padding-bottom:14px; border-bottom:1px dashed var(--border); margin-bottom:14px;">
+        <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">${tt.bookingIdLabel}</div>
+        <div style="font-size:22px; font-weight:900; color:var(--gold); letter-spacing:1px; font-family:monospace;">${data.bookingId}</div>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:6px 0;">
+        <span style="color:var(--muted);">${tt.lblService}:</span><strong>${state.service}</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:6px 0;">
+        <span style="color:var(--muted);">${tt.lblDate}:</span><strong>${formatArabicDate(state.date)}</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:6px 0;">
+        <span style="color:var(--muted);">${tt.lblTime}:</span><strong>${formatTime12(state.time)}</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:6px 0;">
+        <span style="color:var(--muted);">${tt.lblName}:</span><strong>${name}</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:6px 0;">
+        <span style="color:var(--muted);">${tt.lblPhone}:</span><strong dir="ltr">${phone}</strong>
+      </div>
+      <div style="background:rgba(181,139,93,.1); padding:12px; border-radius:10px; margin-top:14px; text-align:center; font-size:13px; color:var(--ink); font-weight:700;">
+        ${tt.cardNote}
+      </div>
+    </div>
+  `;
+  $('confirm-text').innerHTML = cardHTML;
+  $('countdownContainer').innerHTML = `<div class="countdown-card" id="countdownCard">
+    <div class="label" id="cdLabel">${tt.countdownIn}</div>
+    <div class="time-big" id="cdTime">--:--:--</div>
+  </div>`;
+
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+}
+
+function updateCountdown() {
+  const el = $('countdownCard');
+  const labelEl = $('cdLabel');
+  const timeEl = $('cdTime');
+  if (!el || !labelEl || !timeEl || !state.date || !state.time) return;
+
+  const tt = t();
+  const start = parseDT(state.date, state.time);
+  const duration = SERVICE_DURATION[state.service] || MAX_DURATION;
+  const end = new Date(start.getTime() + duration * 60000);
+  const now = new Date();
+  const diffStart = start - now;
+  const diffEnd = end - now;
+
+  el.className = 'countdown-card';
+  labelEl.textContent = tt.countdownIn;
+
+  if (diffEnd <= 0) {
+    el.classList.add('ended');
+    labelEl.textContent = tt.countdownEnded;
+    timeEl.textContent = '—';
+    clearInterval(countdownInterval);
+  } else if (diffStart <= 0) {
+    el.classList.add('started');
+    labelEl.textContent = tt.countdownStarted;
+    const h = Math.floor(diffEnd / 3600000);
+    const m = Math.floor((diffEnd % 3600000) / 60000);
+    const s = Math.floor((diffEnd % 60000) / 1000);
+    timeEl.textContent = `${h > 0 ? h + tt.hShort + ' ' : ''}${m}${tt.mShort} ${pad(s)}${tt.sShort}`;
+  } else {
+    const h = Math.floor(diffStart / 3600000);
+    const m = Math.floor((diffStart % 3600000) / 60000);
+    const s = Math.floor((diffStart % 60000) / 1000);
+    timeEl.textContent = `${h > 0 ? h + tt.hShort + ' ' : ''}${m}${tt.mShort} ${pad(s)}${tt.sShort}`;
+  }
+}
+
+/* ============================================================
+   INIT + POLLING
+============================================================ */
+document.addEventListener('DOMContentLoaded', async () => {
+  applyLang();
+  renderDays();
+  renderTimes();
+  try {
+    await loadBookedSlots();
+    await loadCount();
+  } catch (err) {
+    console.warn('Initial sync failed:', err);
+  }
+});
+
+/* كل 30 ثانية: تحديث العداد والسلوتات */
+setInterval(async () => {
+  await loadBookedSlots();
+  await loadCount();
+  if (document.querySelector('[data-step="3"]').classList.contains('active')) {
+    renderTimes();
+  }
+}, 30000);
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
   });
-  
+});
 </script>
 </body>
 </html>
