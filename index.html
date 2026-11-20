@@ -24,7 +24,7 @@
   .btn-primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
   .btn-outline{background:transparent;color:var(--gold);border:2px solid var(--gold)}
   .btn-outline:hover{background:rgba(181,139,93,.08)}
-  .btn-danger{background:transparent;color:var(--red);border:2px solid var(--red);padding:12px 20px;font-size:14px;border-radius:12px}
+  .btn-danger{background:transparent;color:var(--red);border:2px solid var(--red);padding:12px 20px;font-size:14px;border-radius:12px;font-family:inherit;font-weight:800;cursor:pointer;transition:all .25s ease}
   .btn-danger:hover{background:var(--red);color:#fff}
 
   header{position:sticky;top:0;z-index:50;background:rgba(248, 246, 242, 0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:15px 0}
@@ -456,7 +456,7 @@
 </div>
 
 <script>
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyi2lIa6XZJqZ-EiZNYm2sR-dvqjhRqXFr1-8XVw9W8C3yqLs3bTl82ikM5PxBHBlj9jw/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzHUo7Kf1LQtPBwNfsnORt0sdbrMxNuaGWDZzbKSg6xllp6FxO9GMuDprfxQzN7RoPJ1g/exec';
 const WHATSAPP_NUMBER = '212715962484';
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
 const SERVICE_DURATION = { svc1: 30, svc2: 20, svc3: 45, svc4: 35 };
@@ -485,6 +485,7 @@ const I18N = {
     nextBtn: 'التالي', backBtn: 'رجوع', nameLabel: 'الاسم الكامل', namePlaceholder: 'اكتب اسمك هنا', phoneLabel: 'رقم الهاتف',
     bookedBadge: 'محجوز', pastBadge: 'منتهية', checkingSlots: 'جاري التحقق من الساعات المحجوزة...', slotsSynced: 'الساعات محدثة — الساعة المحجوزة تظهر محجوزة للزبون التالي',
     errName: 'يرجى إدخال الاسم الكامل.', errPhone: 'يرجى إدخال رقم هاتف صحيح.', errTaken: 'تم حجز هذه الساعة مسبقاً، يرجى اختيار ساعة أخرى.',
+    errDuplicateClient: 'لديك حجز سابق مسجل مسبقاً، يرجى إلغاؤه أولاً إذا أردت حجز موعد آخر.',
     successTitle: 'تم تأكيد حجزك!', successSub: 'احتفظ برقم الحجز وأبرزه عند الوصول.',
     turnLabel: 'رقم الحجز', labelName: 'الاسم', labelPhone: 'الهاتف', labelSvc: 'الخدمة', labelDay: 'اليوم', labelTime: 'الساعة',
     sendWaBtn: 'إرسال تفاصيل الحجز', countdownLabel: 'الوقت المتبقي على موعدك', countdownStarted: 'حان وقت موعدك الآن!', countdownEnded: 'انتهى وقت هذا الموعد',
@@ -528,6 +529,7 @@ const I18N = {
     nextBtn: 'Li morah', backBtn: 'Rje3', nameLabel: 'Smiya kamla', namePlaceholder: 'Kteb smitek hna', phoneLabel: 'Nimro tilifon',
     bookedBadge: 'M7joza', pastBadge: 'Fatet', checkingSlots: 'Kanchoufou sa3at li m7jozin...', slotsSynced: 'Sa3at m7ddthin — sa3a li 7jazha zabon katban M7joza l li morah',
     errName: '3afak dkhel smitek kamla.', errPhone: '3afak dkhel nimro tilifon s7i7.', errTaken: 'Had sa3a ra 7jezha zabon 9bel menek, khtar sa3a khra.',
+    errDuplicateClient: '3endek deja rdv m7jouz mn 9bel, lghih lwel ila bghiti t7jez rdv akhor.',
     successTitle: 'Rdv dyalek t2kked!', successSub: '7tafed b ra9m l7ejz w werrih fach tji.',
     turnLabel: 'Ra9m l7ejz', labelName: 'Smiya', labelPhone: 'Tilifon', labelSvc: 'Lkhdma', labelDay: 'Nhar', labelTime: 'Sa3a',
     sendWaBtn: 'Sift tafassil l7ejz', countdownLabel: 'Lwa9t li ba9i 3la rdv dyalek', countdownStarted: 'Ja wa9t rdv dyalek daba!', countdownEnded: 'Salaw wa9t had rdv',
@@ -571,6 +573,7 @@ const I18N = {
     nextBtn: 'Suivant', backBtn: 'Retour', nameLabel: 'Nom complet', namePlaceholder: 'Écrivez votre nom complet', phoneLabel: 'Téléphone',
     bookedBadge: 'Réservé', pastBadge: 'Passé', checkingSlots: 'Vérification des créneaux réservés...', slotsSynced: 'Créneaux à jour — tout créneau pris apparaît réservé au client suivant',
     errName: 'Veuillez saisir votre nom complet.', errPhone: 'Veuillez saisir un numéro de téléphone valide.', errTaken: 'Ce créneau est déjà réservé, veuillez en choisir un autre.',
+    errDuplicateClient: 'Vous avez déjà une réservation active, veuillez l’annuler avant d’en créer une autre.',
     successTitle: 'Réservation confirmée !', successSub: 'Conservez votre numéro de réservation et présentez-le à votre arrivée.',
     turnLabel: 'Numéro de réservation', labelName: 'Nom', labelPhone: 'Téléphone', labelSvc: 'Prestation', labelDay: 'Jour', labelTime: 'Heure',
     sendWaBtn: 'Envoyer la confirmation', countdownLabel: 'Temps restant avant le rendez-vous', countdownStarted: 'C’est l’heure de votre rendez-vous !', countdownEnded: 'Ce créneau est terminé',
@@ -606,6 +609,52 @@ const state = {
 
 const STORAGE_BOOKINGS_KEY = 'sola_booked_slots_v1';
 const STORAGE_COUNT_KEY = 'sola_booking_count_v1';
+const STORAGE_CLIENTS_KEY = 'sola_booked_clients_v1';
+
+function normalizePhoneClient(val) {
+  return String(val || '').replace(/[^\d+]/g, '').trim();
+}
+
+function normalizeNameClient(val) {
+  return String(val || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function hasLocalClientBooking(name, phone) {
+  try {
+    const list = JSON.parse(localStorage.getItem(STORAGE_CLIENTS_KEY) || '[]');
+    const cPhone = normalizePhoneClient(phone);
+    const cName = normalizeNameClient(name);
+    return list.some(item => (cPhone && item.phone === cPhone) || (cName && item.name === cName));
+  } catch {
+    return false;
+  }
+}
+
+function saveLocalClientBooking(name, phone, code) {
+  try {
+    const list = JSON.parse(localStorage.getItem(STORAGE_CLIENTS_KEY) || '[]');
+    list.push({
+      name: normalizeNameClient(name),
+      phone: normalizePhoneClient(phone),
+      code: String(code || '').toUpperCase()
+    });
+    localStorage.setItem(STORAGE_CLIENTS_KEY, JSON.stringify(list));
+  } catch {}
+}
+
+function removeLocalClientBooking(code, phone) {
+  try {
+    const list = JSON.parse(localStorage.getItem(STORAGE_CLIENTS_KEY) || '[]');
+    const cCode = String(code || '').trim().toUpperCase();
+    const cPhone = normalizePhoneClient(phone);
+    const filtered = list.filter(item => {
+      if (cCode && item.code === cCode) return false;
+      if (cPhone && item.phone === cPhone) return false;
+      return true;
+    });
+    localStorage.setItem(STORAGE_CLIENTS_KEY, JSON.stringify(filtered));
+  } catch {}
+}
 
 function getLocalBookings(dayISO) {
   try {
@@ -909,6 +958,11 @@ async function handleBookingSubmit() {
     return;
   }
 
+  if (hasLocalClientBooking(state.name, state.phone)) {
+    errEl.textContent = t('errDuplicateClient');
+    return;
+  }
+
   submitBtn.disabled = true;
   const latestBooked = await fetchServerBookedSlots(state.dayISO);
   state.bookedForDay = latestBooked;
@@ -942,6 +996,11 @@ async function handleBookingSubmit() {
       const res = await fetch(scriptURL, { method: 'POST', body: formData });
       if (res.ok) {
         const data = await res.json();
+        if (data && (data.duplicateClient || data.status === 'DUPLICATE_CLIENT')) {
+          errEl.textContent = t('errDuplicateClient');
+          submitBtn.disabled = false;
+          return;
+        }
         if (data && (data.taken || data.status === 'TAKEN')) {
           errEl.textContent = t('errTaken');
           state.time = '';
@@ -957,6 +1016,7 @@ async function handleBookingSubmit() {
   } catch {}
 
   saveLocalBooking(state.dayISO, state.time);
+  saveLocalClientBooking(state.name, state.phone, bookingCode);
   setBookingCounter(getBookingCounter() + 1);
   submitBtn.disabled = false;
   showReceipt(bookingCode);
@@ -990,6 +1050,7 @@ async function handleCancelSubmit() {
       if (data.date && data.time) {
         removeLocalBooking(data.date, data.time);
       }
+      removeLocalClientBooking(code, phone);
       if (state.dayISO) {
         await loadBookedSlotsForDay(state.dayISO);
       }
