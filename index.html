@@ -103,10 +103,41 @@
   .time{padding:12px 5px;text-align:center;border:2px solid var(--border);border-radius:12px;cursor:pointer;font-weight:800;font-size:14px;transition:all .2s ease;background:var(--bg);color:var(--ink);position:relative}
   .time:hover:not(.booked):not(.past){border-color:var(--gold-light)}
   .time.selected:not(.booked):not(.past){background:var(--gold);color:#fff;border-color:var(--gold)}
-  .time.booked, .time.past{background:#f0f0f0;color:#ccc;border-color:#eee;cursor:not-allowed;opacity:0.6}
-  .time.booked{text-decoration:line-through}
-  .time.booked::after{content:attr(data-booked-label);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;text-decoration:none;font-weight:900;box-shadow:0 2px 5px rgba(231,76,60,0.3)}
-  .time.past::after{content:attr(data-past-label);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:#95a5a6;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:900}
+  
+  /* 🔴 ستايل الساعات المحجوزة (حمراء وممنوعة) */
+  .time.booked, .time.past {
+    background: #ffebee !important; 
+    color: #d32f2f !important; 
+    border-color: #ffcdd2 !important; 
+    cursor: not-allowed !important; 
+    opacity: 0.8 !important;
+    text-decoration: line-through;
+    pointer-events: none;
+  }
+  .time.booked::after {
+    content: 'محجوز'; 
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%); 
+    background: #d32f2f; 
+    color: #fff; 
+    font-size: 10px; 
+    padding: 2px 8px; 
+    border-radius: 10px; 
+    font-weight: 900;
+  }
+  .time.past::after {
+    content: 'مضى'; 
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%); 
+    background: #9e9e9e; 
+    color: #fff; 
+    font-size: 10px; 
+    padding: 2px 8px; 
+    border-radius: 10px; 
+    font-weight: 900;
+  }
   
   .form-group{margin-bottom:18px}
   .form-group label{display:block;font-size:14px;color:var(--ink);font-weight:800;margin-bottom:8px}
@@ -329,7 +360,7 @@
     <div class="info-card">
       <h3 data-i18n="hoursTitle">🕒 ساعات العمل</h3>
       <ul class="hours-list">
-        <li><span data-i18n="hoursDays">الاثنين - الأحد</span> <span data-i18n="hoursRange">11:00 ص - 22:00 م</span></li>
+        <li><span data-i18n="hoursDays">الاثنين - الأحد</span> <span data-i18n="hoursRange">11:00 ص - 10:00 م</span></li>
       </ul>
     </div>
     <div class="info-card">
@@ -384,7 +415,7 @@
    CONFIG
 ============================================================ */
 // ⚠️ هنا حط الرابط الجديد ديال Apps Script (اللي كيسالي بـ /exec)
-const scriptURL = 'https://script.google.com/macros/s/AKfycbx0ZuyQYcDeQKw4bz1ELdSIplWirDW8r4uy2L759fLxOKkQVWJlenUoHqpsksa4KpCdmw/exec'; 
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzMLnVlVmFa0fFLg-d9N39yZjr2ayjcw33UxkSmyu_tV9k4KrqkJP1UZUqSevT2oDaKmg/exec'; 
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
 const SERVICE_DURATION = { 'قص + لحية': 45, 'قص': 30, 'لحية': 20 };
 
@@ -399,7 +430,7 @@ const I18N = {
     howTitle: 'كيفاش تحجز <span>موعدك؟</span>', howSubtitle: 'العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:',
     step1Title: 'اختار الخدمة', step1Desc: 'حدد واش بغيتي قص، لحية، ولا بجوج.',
     step2Title: 'اختار النهار', step2Desc: 'شوف الأيام السبعة القادمة واختار اللي يناسبك.',
-    step3Title: 'اختار الساعة', step3Desc: 'الساعات المحجوزة كتظهر رمادية، اختار ساعة خاوية.',
+    step3Title: 'اختار الساعة', step3Desc: 'الساعات المحجوزة كتظهر حمراء، اختار ساعة خاوية.',
     step4Title: 'عمر معلوماتك', step4Desc: 'حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.',
     phoneMockTitle: 'احجز موعدك',
     svc1Name: 'قص + لحية', svc1Time: '45 دقيقة', svc2Name: 'قص', svc2Time: '30 دقيقة', svc3Name: 'لحية', svc3Time: '20 دقيقة',
@@ -416,12 +447,12 @@ const I18N = {
     cardSvc2: 'تحديد لحية', cardSvc2Price: '15 درهم', cardSvc2Desc: 'تحديد وتشذيب احترافي.',
     cardSvc3: 'قص + لحية', cardSvc3Price: '35 درهم', cardSvc3Desc: 'الباقة الكاملة للإطلالة المثالية.',
     cardSvc4: 'تنظيف بشرة', cardSvc4Price: '30 درهم', cardSvc4Desc: 'عناية وانتعاش للوجه.',
-    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '11:00 ص - 10:00 م',
+    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '11:00 ص - 22:00 م',
     locationTitle: '📍 مكان المحل', locationText: '<strong>العنوان:</strong> طنجة، المغرب.<br>اضغط على الزر باش تفتح الموقع فـ Google Maps.', openMaps: 'افتح في خرائط جوجل',
     faqTitle: 'أسئلة <span>شائعة</span>',
     faq1Q: 'واش هاد الحجز ببلاش؟', faq1A: 'نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.',
     faq2Q: 'كيفاش كنعرف أن الموعد تأكد؟', faq2A: 'بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.',
-    faq3Q: 'واش يمكن نحجز نفس الساعة من جهاز آخر؟', faq3A: 'لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان رمادية عند الجميع.',
+    faq3Q: 'واش يمكن نحجز نفس الساعة من جهاز آخر؟', faq3A: 'لا، السيرفر كيفحص الحجوزات فكل الأجهزة. أي ساعة محجوزة كتبان حمراء عند الجميع.',
     footerCopyright: '© 2024 Barber Shop Sola. جميع الحقوق محفوظة.', footerDesignedBy: 'صُمم بواسطة',
     errNamePhone: 'عافاك عمر الاسم ورقم الهاتف.', errAllSteps: 'المرجو إكمال جميع الخطوات.',
     errSlotTaken: 'هاد الموعد محجوز مسبقاً، اختار ساعة أخرى.', errSlotTakenNow: 'هاد الموعد تحجز دابا من طرف شخص آخر.',
@@ -430,6 +461,7 @@ const I18N = {
     cardNote: 'خد لقطة للشاشة (Screenshot) باش توريها نهار الموعد',
     countdownIn: 'موعدك بعد', countdownStarted: 'الموعد بدا دابا 🕐', countdownEnded: 'الموعد سال',
     hShort: 'س', mShort: 'د', sShort: 'ث', selectDayFirst: 'الرجاء اختيار النهار أولاً', bookedLabel: 'محجوز', pastLabel: 'مضى',
+    errAlreadyBooked: 'عندك ديجا حجز مسجل فهاد التيليفون! يلا بغيتي تبدلو، دير إلغاء للحجز القديم أو عيط لينا.',
     days: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
     months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
     formatTime: (h, m) => {
@@ -445,7 +477,7 @@ const I18N = {
     howTitle: 'Comment <span>réserver ?</span>', howSubtitle: 'Le processus prend moins d\'une minute. Suivez ces étapes simples :',
     step1Title: 'Choisissez le service', step1Desc: 'Sélectionnez coupe, barbe ou les deux.',
     step2Title: 'Choisissez le jour', step2Desc: 'Consultez les 7 prochains jours et choisissez celui qui vous convient.',
-    step3Title: 'Choisissez l\'heure', step3Desc: 'Les créneaux réservés s\'affichent en gris, choisissez-en un libre.',
+    step3Title: 'Choisissez l\'heure', step3Desc: 'Les créneaux réservés s\'affichent en rouge, choisissez-en un libre.',
     step4Title: 'Vos informations', step4Desc: 'Entrez votre nom et votre téléphone, recevez votre numéro de réservation instantanément.',
     phoneMockTitle: 'Réservez votre RDV',
     svc1Name: 'Coupe + barbe', svc1Time: '45 min', svc2Name: 'Coupe', svc2Time: '30 min', svc3Name: 'Barbe', svc3Time: '20 min',
@@ -467,7 +499,7 @@ const I18N = {
     faqTitle: 'Questions <span>fréquentes</span>',
     faq1Q: 'La réservation est-elle gratuite ?', faq1A: 'Oui, la réservation est entièrement gratuite. Vous choisissez l\'heure et vous venez au rendez-vous.',
     faq2Q: 'Comment savoir si mon RDV est confirmé ?', faq2A: 'Après confirmation, vous recevez une carte avec votre numéro de réservation unique. Faites une capture d\'écran et présentez-la le jour du rendez-vous.',
-    faq3Q: 'Peut-on réserver le même créneau depuis un autre appareil ?', faq3A: 'Non, le serveur vérifie toutes les réservations sur tous les appareils. Tout créneau réservé s\'affiche en gris pour tout le monde.',
+    faq3Q: 'Peut-on réserver le même créneau depuis un autre appareil ?', faq3A: 'Non, le serveur vérifie toutes les réservations sur tous les appareils. Tout créneau réservé s\'affiche en rouge pour tout le monde.',
     footerCopyright: '© 2024 Barber Shop Sola. Tous droits réservés.', footerDesignedBy: 'Conçu par',
     errNamePhone: 'Veuillez saisir votre nom et votre numéro.', errAllSteps: 'Veuillez compléter toutes les étapes.',
     errSlotTaken: 'Ce créneau est déjà réservé, choisissez-en un autre.', errSlotTakenNow: 'Ce créneau vient d\'être réservé par quelqu\'un d\'autre. Choisissez-en un autre.',
@@ -476,6 +508,7 @@ const I18N = {
     cardNote: 'Faites une capture d\'écran de cette carte à présenter le jour du RDV',
     countdownIn: 'Votre RDV dans', countdownStarted: 'Votre RDV commence 🕐', countdownEnded: 'RDV terminé — merci de votre visite',
     hShort: 'h', mShort: 'min', sShort: 's', selectDayFirst: 'Veuillez d\'abord choisir un jour', bookedLabel: 'Réservé', pastLabel: 'Passé',
+    errAlreadyBooked: 'Vous avez déjà une réservation sur ce téléphone ! Pour en faire une autre, annulez l\'ancienne ou contactez-nous.',
     days: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
     months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     formatTime: (h, m) => `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`
@@ -610,12 +643,9 @@ function renderTimes() {
     
     if (state.date === todayISO && parseDT(state.date, time) <= now) {
       div.classList.add('past');
-      div.dataset.pastLabel = tt.pastLabel;
     }
-    // هنا فين كيتشيك واش الساعة محجوزة من الداتا اللي جات من جوجل
     else if (bookedSlots.includes(`${state.date}_${time}`)) {
       div.classList.add('booked');
-      div.dataset.bookedLabel = tt.bookedLabel;
     }
     else {
       if (state.time === time) div.classList.add('selected');
@@ -663,6 +693,17 @@ $('submitBtn').addEventListener('click', async function (e) {
 
   if (!name || !phone) { alert(tt.errNamePhone); return; }
 
+  // 🛑 الحماية من الحجز المزدوج من نفس الجهاز (IP / LocalStorage)
+  const existingBooking = localStorage.getItem('sola_my_active_booking');
+  if (existingBooking) {
+    const parsed = JSON.parse(existingBooking);
+    // يلا كان الحجز ديال نفس التيليفون، كنمنعوه
+    if (parsed.phone === phone) {
+      alert(tt.errAlreadyBooked);
+      return;
+    }
+  }
+
   state.name = name;
   state.phone = phone;
 
@@ -676,6 +717,12 @@ $('submitBtn').addEventListener('click', async function (e) {
 
     if (data.status === 'OK') {
       state.bookingId = data.bookingId;
+      
+      // 💾 نسجلو الحجز فالمتصفح باش نمنعو الحجز المزدوج
+      localStorage.setItem('sola_my_active_booking', JSON.stringify({
+        date: state.date, time: state.time, phone: phone, name: name
+      }));
+
       renderSuccessCard(data, name, phone);
       showStep(5);
       await syncData(); 
@@ -768,7 +815,8 @@ async function cancelMyBooking() {
 
     if (res.status === 'OK') {
       alert(lang === 'ar' ? 'تم إلغاء الحجز بنجاح.' : 'Réservation annulée avec succès.');
-      location.reload(); // كنعاودو نحملو الصفحة باش تمسح البطاقة
+      localStorage.removeItem('sola_my_active_booking'); // كنمسحو الحجز المحلي
+      location.reload(); 
     } else {
       alert(lang === 'ar' ? 'وقع خطأ، المرجو المحاولة لاحقاً.' : 'Erreur, réessayez plus tard.');
       btn.innerText = t().cancelBtn;
