@@ -437,7 +437,7 @@ const I18N = {
     cardSvc2: 'تحديد لحية', cardSvc2Price: '15 درهم', cardSvc2Desc: 'تحديد وتشذيب احترافي.',
     cardSvc3: 'قص + لحية', cardSvc3Price: '35 درهم', cardSvc3Desc: 'الباقة الكاملة للإطلالة المثالية.',
     cardSvc4: 'تنظيف بشرة', cardSvc4Price: '30 درهم', cardSvc4Desc: 'عناية وانتعاش للوجه.',
-    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '11:00 ص - 10:00 م',
+    hoursTitle: '🕒 ساعات العمل', hoursDays: 'الاثنين - الأحد', hoursRange: '22:00 ص - 10:00 م',
     locationTitle: '📍 مكان المحل', locationText: '<strong>العنوان:</strong> طنجة، المغرب.<br>اضغط على الزر باش تفتح الموقع فـ Google Maps.', openMaps: 'افتح في خرائط جوجل',
     faqTitle: 'أسئلة <span>شائعة</span>',
     faq1Q: 'واش هاد الحجز ببلاش؟', faq1A: 'نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.',
@@ -667,7 +667,18 @@ document.querySelectorAll('.svc').forEach(el => {
   });
 });
 $('next1').addEventListener('click', () => showStep(2));
-$('next2').addEventListener('click', () => showStep(3));
+$('next2').addEventListener('click', async function() {
+  const btn = this;
+  btn.disabled = true;
+  const originalText = btn.innerText;
+  btn.innerText = 'جاري التحديث...';
+  
+  await syncData(); // جلب أحدث الحجوزات من السيرفر
+  
+  btn.innerText = originalText;
+  btn.disabled = false;
+  showStep(3);
+});
 $('next3').addEventListener('click', () => showStep(4));
 document.querySelectorAll('[data-back]').forEach(el => el.addEventListener('click', () => showStep(el.dataset.back)));
 
@@ -849,7 +860,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-setInterval(syncData, 30000);
+setInterval(syncData, 10000); // كل 10 ثواني
 </script>
 </body>
 </html>
