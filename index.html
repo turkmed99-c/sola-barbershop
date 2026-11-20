@@ -792,17 +792,18 @@ async function fetchServerBookedSlots(dayISO) {
   if (!scriptURL || scriptURL.includes('YOUR_SCRIPT_ID')) return localBooked;
 
   try {
-    const res = await fetch(`${scriptURL}?action=getBookedSlots&date=${encodeURIComponent(dayISO)}`, { cache: 'no-store' });
+    const url = `${scriptURL}?action=getBookedSlots&date=${encodeURIComponent(dayISO)}&_t=${Date.now()}`;
+    const res = await fetch(url, { method: 'GET', cache: 'no-store' });
     if (!res.ok) return localBooked;
     const data = await res.json();
 
     let serverBooked = [];
     if (Array.isArray(data.bookedSlots)) {
-      serverBooked = data.bookedSlots;
+      serverBooked = data.bookedSlots.map(s => String(s).trim().slice(0, 5));
     } else if (Array.isArray(data.slots)) {
       serverBooked = data.slots
         .filter(item => String(item).startsWith(dayISO + '_'))
-        .map(item => String(item).split('_')[1]);
+        .map(item => String(item).split('_')[1].trim().slice(0, 5));
     }
 
     if (typeof data.totalBookings === 'number') {
@@ -811,12 +812,101 @@ async function fetchServerBookedSlots(dayISO) {
       setBookingCounter(data.count);
     }
 
-    return Array.from(new Set([...localBooked, ...serverBooked]));
+    return Array.from(new Set(serverBooked));
   } catch {
     return localBooked;
   }
 }
 
+async function handleBookingSubmit() {
+  const errEl = document.getElementById('formError');
+  const nameInput = document.getElementById('clientName');
+  const phoneInput = document.getElementById('clientPhone');
+  const submitBtn = document.getElementById('submitBtn');
+
+  state.name = nameInput.value.trim();
+  state.phone = phoneInput.value.trim();
+  errEl.textContent = '';
+
+  if (state.name.length < 2) {
+    errEl.textContent = t('errName');
+    nameInput.focus();
+    return;
+  }
+  const cleanPhone = state.phone.replace(/[\s()-]/g, '');
+  if (!/^(\+?212|0)[5-7]\d{8}$/.test(cleanPhone) && cleanPhone.length < 8) {
+    errEl.textContent = t('errPhone');
+    phoneInput.focus();
+    return;
+  }
+
+  if (hasLocalClientBooking(state.name, state.phone)) {
+    errEl.textContent = t('errDuplicateClient');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  const latestBooked = await fetchServerBookedSlots(state.dayISO);
+  state.bookedForDay = latestBooked;
+  renderTimes();
+
+  if (latestBooked.includes(state.time)) {
+    errEl.textContent = t('errTaken');
+    state.time = '';
+    submitBtn.disabled = false;
+    goToStep(3);
+    return;
+  }
+
+  let bookingCode = 'SOLA-' + Math.floor(1000 + Math.random() * 9000);
+  const serviceLabel = getSelectedServiceLabel();
+
+  try {
+    const query = new URLSearchParams({
+      action: 'book',
+      code: bookingCode,
+      service: serviceLabel,
+      duration: String(state.duration || SERVICE_DURATION[state.serviceKey] || 30),
+      date: state.dayISO,
+      time: state.time,
+      name: state.name,
+      phone: state.phone,
+      lang: state.lang,
+      _t: String(Date.now())
+    }).toString();
+
+    const res = await fetch(`${scriptURL}?${query}`, { method: 'GET', cache: 'no-store' });
+    const data = await res.json();
+
+    if (data && (data.duplicateClient || data.status === 'DUPLICATE_CLIENT')) {
+      errEl.textContent = t('errDuplicateClient');
+      submitBtn.disabled = false;
+      return;
+    }
+
+    if (data && (data.taken || data.status === 'TAKEN')) {
+      errEl.textContent = t('errTaken');
+      state.time = '';
+      await loadBookedSlotsForDay(state.dayISO);
+      submitBtn.disabled = false;
+      goToStep(3);
+      return;
+    }
+
+    if (data && (data.code || data.bookingId)) {
+      bookingCode = data.code || data.bookingId;
+    }
+
+    saveLocalBooking(state.dayISO, state.time);
+    saveLocalClientBooking(state.name, state.phone, bookingCode);
+    await loadBookedSlotsForDay(state.dayISO);
+    submitBtn.disabled = false;
+    showReceipt(bookingCode);
+  } catch {
+    errEl.textContent = t('errTaken');
+    submitBtn.disabled = false;
+  }
+}
 async function loadBookedSlotsForDay(dayISO) {
   const statusEl = document.getElementById('slotSyncStatus');
   statusEl.textContent = t('checkingSlots');
