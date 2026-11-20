@@ -405,7 +405,7 @@
    CONFIG
 ============================================================ */
 // ⚠️ هنا حط الرابط الجديد ديال Apps Script
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyoEUPQYcyGd0hm8LYuk__DobgwVkOUsUr-8QcFNNiDX0aP7EHeqDcCEekeDl-jCRzg/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxYlvDBdNVkS-zapNSl7GlynQlK7NswJ8BEyLnpH6H29gZvjNYEzL42b22gTZr68ccy/exec';
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
 const SERVICE_DURATION = { 'قص + لحية': 45, 'قص': 30, 'لحية': 20 };
 
@@ -673,7 +673,25 @@ $('next2').addEventListener('click', async function() {
   const originalText = btn.innerText;
   btn.innerText = 'جاري التحديث...';
   
-  await syncData(); // جلب أحدث الحجوزات من السيرفر
+  await syncData();async function syncData() {
+  try {
+    const [slotsData, countData] = await Promise.all([
+      apiGet({ action: 'getBookedSlots' }),
+      apiGet({ action: 'getCount' })
+    ]);
+    
+    // هاد السطر غادي يورينا شنو كيرجع السيرفر بالضبط
+    console.log("✅ الساعات المحجوزة اللي جابها السيرفر:", slotsData);
+    
+    bookedSlots = slotsData.slots || [];
+    $('bookingCount').innerText = countData.count !== undefined ? countData.count : 0;
+    
+    if ($('timesContainer')) renderTimes();
+  } catch (err) {
+    console.error('❌ مشكل فالاتصال:', err);
+    $('bookingCount').innerText = '⚠️'; // إيلا كان مشكل فالاتصال كتبان علامة تحذير
+  }
+} // جلب أحدث الحجوزات من السيرفر
   
   btn.innerText = originalText;
   btn.disabled = false;
