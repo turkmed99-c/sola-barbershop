@@ -612,7 +612,11 @@ const STORAGE_COUNT_KEY = 'sola_booking_count_v1';
 const STORAGE_CLIENTS_KEY = 'sola_booked_clients_v1';
 
 function normalizePhoneClient(val) {
-  return String(val || '').replace(/[^\d+]/g, '').trim();
+  let digits = String(val || '').replace(/\D/g, '');
+  if (digits.startsWith('212') && digits.length >= 12) {
+    digits = '0' + digits.slice(3);
+  }
+  return digits.trim();
 }
 
 function normalizeNameClient(val) {
@@ -812,101 +816,12 @@ async function fetchServerBookedSlots(dayISO) {
       setBookingCounter(data.count);
     }
 
-    return Array.from(new Set(serverBooked));
+    return Array.from(new Set([...localBooked, ...serverBooked]));
   } catch {
     return localBooked;
   }
 }
 
-async function handleBookingSubmit() {
-  const errEl = document.getElementById('formError');
-  const nameInput = document.getElementById('clientName');
-  const phoneInput = document.getElementById('clientPhone');
-  const submitBtn = document.getElementById('submitBtn');
-
-  state.name = nameInput.value.trim();
-  state.phone = phoneInput.value.trim();
-  errEl.textContent = '';
-
-  if (state.name.length < 2) {
-    errEl.textContent = t('errName');
-    nameInput.focus();
-    return;
-  }
-  const cleanPhone = state.phone.replace(/[\s()-]/g, '');
-  if (!/^(\+?212|0)[5-7]\d{8}$/.test(cleanPhone) && cleanPhone.length < 8) {
-    errEl.textContent = t('errPhone');
-    phoneInput.focus();
-    return;
-  }
-
-  if (hasLocalClientBooking(state.name, state.phone)) {
-    errEl.textContent = t('errDuplicateClient');
-    return;
-  }
-
-  submitBtn.disabled = true;
-  const latestBooked = await fetchServerBookedSlots(state.dayISO);
-  state.bookedForDay = latestBooked;
-  renderTimes();
-
-  if (latestBooked.includes(state.time)) {
-    errEl.textContent = t('errTaken');
-    state.time = '';
-    submitBtn.disabled = false;
-    goToStep(3);
-    return;
-  }
-
-  let bookingCode = 'SOLA-' + Math.floor(1000 + Math.random() * 9000);
-  const serviceLabel = getSelectedServiceLabel();
-
-  try {
-    const query = new URLSearchParams({
-      action: 'book',
-      code: bookingCode,
-      service: serviceLabel,
-      duration: String(state.duration || SERVICE_DURATION[state.serviceKey] || 30),
-      date: state.dayISO,
-      time: state.time,
-      name: state.name,
-      phone: state.phone,
-      lang: state.lang,
-      _t: String(Date.now())
-    }).toString();
-
-    const res = await fetch(`${scriptURL}?${query}`, { method: 'GET', cache: 'no-store' });
-    const data = await res.json();
-
-    if (data && (data.duplicateClient || data.status === 'DUPLICATE_CLIENT')) {
-      errEl.textContent = t('errDuplicateClient');
-      submitBtn.disabled = false;
-      return;
-    }
-
-    if (data && (data.taken || data.status === 'TAKEN')) {
-      errEl.textContent = t('errTaken');
-      state.time = '';
-      await loadBookedSlotsForDay(state.dayISO);
-      submitBtn.disabled = false;
-      goToStep(3);
-      return;
-    }
-
-    if (data && (data.code || data.bookingId)) {
-      bookingCode = data.code || data.bookingId;
-    }
-
-    saveLocalBooking(state.dayISO, state.time);
-    saveLocalClientBooking(state.name, state.phone, bookingCode);
-    await loadBookedSlotsForDay(state.dayISO);
-    submitBtn.disabled = false;
-    showReceipt(bookingCode);
-  } catch {
-    errEl.textContent = t('errTaken');
-    submitBtn.disabled = false;
-  }
-}
 async function loadBookedSlotsForDay(dayISO) {
   const statusEl = document.getElementById('slotSyncStatus');
   statusEl.textContent = t('checkingSlots');
@@ -1068,48 +983,59 @@ async function handleBookingSubmit() {
 
   let bookingCode = 'SOLA-' + Math.floor(1000 + Math.random() * 9000);
   const serviceLabel = getSelectedServiceLabel();
-  const payload = {
-    action: 'book',
-    code: bookingCode,
-    service: serviceLabel,
-    duration: state.duration || SERVICE_DURATION[state.serviceKey] || 30,
-    date: state.dayISO,
-    time: state.time,
-    name: state.name,
-    phone: state.phone,
-    lang: state.lang
-  };
 
   try {
-    if (scriptURL && !scriptURL.includes('YOUR_SCRIPT_ID')) {
-      const formData = new URLSearchParams(payload);
-      const res = await fetch(scriptURL, { method: 'POST', body: formData });
-      if (res.ok) {
-        const data = await res.json();
-        if (data && (data.duplicateClient || data.status === 'DUPLICATE_CLIENT')) {
-          errEl.textContent = t('errDuplicateClient');
-          submitBtn.disabled = false;
-          return;
-        }
-        if (data && (data.taken || data.status === 'TAKEN')) {
-          errEl.textContent = t('errTaken');
-          state.time = '';
-          submitBtn.disabled = false;
-          goToStep(3);
-          return;
-        }
-        if (data && (data.code || data.bookingId)) {
-          bookingCode = data.code || data.bookingId;
-        }
-      }
-    }
-  } catch {}
+    const query = new URLSearchParams({
+      action: 'book',
+      code: bookingCode,
+      service: serviceLabel,
+      duration: String(state.duration || SERVICE_DURATION[state.serviceKey] || 30),
+      date: state.dayISO,
+      time: state.time,
+      name: state.name,
+      phone: state.phone,
+      lang: state.lang,
+      _t: String(Date.now())
+    }).toString();
 
-  saveLocalBooking(state.dayISO, state.time);
-  saveLocalClientBooking(state.name, state.phone, bookingCode);
-  setBookingCounter(getBookingCounter() + 1);
-  submitBtn.disabled = false;
-  showReceipt(bookingCode);
+    const res = await fetch(`${scriptURL}?${query}`, { method: 'GET', cache: 'no-store' });
+    const data = await res.json();
+
+    if (data && (data.duplicateClient || data.status === 'DUPLICATE_CLIENT')) {
+      saveLocalClientBooking(state.name, state.phone, bookingCode);
+      errEl.textContent = t('errDuplicateClient');
+      submitBtn.disabled = false;
+      return;
+    }
+
+    if (data && (data.taken || data.status === 'TAKEN')) {
+      saveLocalBooking(state.dayISO, state.time);
+      errEl.textContent = t('errTaken');
+      state.time = '';
+      await loadBookedSlotsForDay(state.dayISO);
+      submitBtn.disabled = false;
+      goToStep(3);
+      return;
+    }
+
+    if (data && (data.code || data.bookingId)) {
+      bookingCode = data.code || data.bookingId;
+    }
+
+    saveLocalBooking(state.dayISO, state.time);
+    saveLocalClientBooking(state.name, state.phone, bookingCode);
+    setBookingCounter(getBookingCounter() + 1);
+    await loadBookedSlotsForDay(state.dayISO);
+    submitBtn.disabled = false;
+    showReceipt(bookingCode);
+  } catch {
+    saveLocalBooking(state.dayISO, state.time);
+    saveLocalClientBooking(state.name, state.phone, bookingCode);
+    setBookingCounter(getBookingCounter() + 1);
+    await loadBookedSlotsForDay(state.dayISO);
+    submitBtn.disabled = false;
+    showReceipt(bookingCode);
+  }
 }
 
 async function handleCancelSubmit() {
@@ -1132,8 +1058,8 @@ async function handleCancelSubmit() {
   msgEl.textContent = t('checkingSlots');
 
   try {
-    const params = new URLSearchParams({ action: 'cancel', code: code, phone: phone });
-    const res = await fetch(scriptURL, { method: 'POST', body: params });
+    const query = new URLSearchParams({ action: 'cancel', code: code, phone: phone, _t: String(Date.now()) }).toString();
+    const res = await fetch(`${scriptURL}?${query}`, { method: 'GET', cache: 'no-store' });
     const data = await res.json();
 
     if (data && (data.ok || data.status === 'OK')) {
@@ -1172,12 +1098,15 @@ function resetBookingWidget() {
   document.getElementById('next1').disabled = true;
   document.getElementById('next3').disabled = true;
   renderDays();
+  if (state.dayISO) loadBookedSlotsForDay(state.dayISO);
   goToStep(1);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   setBookingCounter(getBookingCounter());
   startClock();
+  renderDays();
+  if (state.dayISO) loadBookedSlotsForDay(state.dayISO);
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
