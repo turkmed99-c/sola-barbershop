@@ -85,7 +85,7 @@
   .widget-step h3 small{font-size:13px;color:var(--gold);font-weight:700;background:rgba(181,139,93,.1);padding:4px 10px;border-radius:20px}
 
   .svc-grid{display:grid;gap:12px}
-  .svc{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s ease;background:var(--bg)}
+  .svc{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s ease;background:var(--bg)}
   .svc:hover{border-color:var(--gold-light)}
   .svc.selected{border-color:var(--gold);background:rgba(181,139,93,.06);box-shadow:0 4px 15px rgba(181,139,93,.1)}
   .svc strong{font-weight:800;font-size:16px;color:var(--ink)}
@@ -263,9 +263,9 @@
       <h2 data-i18n-html="howTitle">كيفاش تحجز <span>موعدك؟</span></h2>
       <p data-i18n="howSubtitle">العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:</p>
       <ul class="guide-steps">
-        <li><div class="num">1</div><div><h4 data-i18n="step1Title">اختار الخدمة</h4><p data-i18n="step1Desc">حدد واش بغيتي قص، لحية، ولا بجوج.</p></div></li>
+        <li><div class="num">1</div><div><h4 data-i18n="step1Title">اختار الخدمة</h4><p data-i18n="step1Desc">حدد واش بغيتي 7ilakat cha3r، 7ilakat l7ya، 7ilakat l7ya w ch3ar، ولا tandif bachrat l wjeh.</p></div></li>
         <li><div class="num">2</div><div><h4 data-i18n="step2Title">اختار النهار</h4><p data-i18n="step2Desc">شوف الأيام السبعة القادمة واختار اللي يناسبك.</p></div></li>
-        <li><div class="num">3</div><div><h4 data-i18n="step3Title">اختار الساعة</h4><p data-i18n="step3Desc">ila bgha zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.</p></div></li>
+        <li><div class="num">3</div><div><h4 data-i18n="step3Title">اختار الساعة</h4><p data-i18n="step3Desc">Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.</p></div></li>
         <li><div class="num">4</div><div><h4 data-i18n="step4Title">عمر معلوماتك</h4><p data-i18n="step4Desc">حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.</p></div></li>
       </ul>
     </div>
@@ -275,8 +275,8 @@
         <div class="phone-screen">
           <div class="phone-header"><h3 data-i18n="phoneMockTitle">احجز موعدك</h3></div>
           <div class="phone-content">
-            <div class="p-item active"><strong data-i18n="svc1Name">قص + لحية</strong><small data-i18n="svc1Time">45 دقيقة</small></div>
-            <div class="p-item"><strong data-i18n="svc2Name">قص</strong><small data-i18n="svc2Time">30 دقيقة</small></div>
+            <div class="p-item active"><strong data-i18n="svc3Name">7ilakat l7ya w ch3ar</strong><small data-i18n="svc3Time">45 min</small></div>
+            <div class="p-item"><strong data-i18n="svc1Name">7ilakat cha3r</strong><small data-i18n="svc1Time">30 min</small></div>
             <div class="p-grid" style="margin-top: 5px;">
               <div class="p-time" data-i18n="monShort">الاثنين</div>
               <div class="p-time active" data-i18n="tueShort">الثلاثاء</div>
@@ -306,9 +306,10 @@
         <div class="widget-step active" data-step="1">
           <h3><span data-i18n="svcStepTitle">اختار الخدمة</span> <small data-i18n="stepBadge1">الخطوة 1 من 4</small></h3>
           <div class="svc-grid">
-            <div class="svc" data-svc="قص + لحية"><strong data-i18n="svc1Name">قص + لحية</strong><small data-i18n="svc1Time">45 دقيقة</small></div>
-            <div class="svc" data-svc="قص"><strong data-i18n="svc2Name">قص</strong><small data-i18n="svc2Time">30 دقيقة</small></div>
-            <div class="svc" data-svc="لحية"><strong data-i18n="svc3Name">لحية</strong><small data-i18n="svc3Time">20 دقيقة</small></div>
+            <div class="svc" data-svc="7ilakat cha3r" data-duration="30"><strong data-i18n="svc1Name">7ilakat cha3r</strong><small data-i18n="svc1Time">30 min</small></div>
+            <div class="svc" data-svc="7ilakat l7ya" data-duration="20"><strong data-i18n="svc2Name">7ilakat l7ya</strong><small data-i18n="svc2Time">20 min</small></div>
+            <div class="svc" data-svc="7ilakat l7ya w ch3ar" data-duration="45"><strong data-i18n="svc3Name">7ilakat l7ya w ch3ar</strong><small data-i18n="svc3Time">45 min</small></div>
+            <div class="svc" data-svc="Tandif bachrat l wjeh" data-duration="35"><strong data-i18n="svc4Name">Tandif bachrat l wjeh</strong><small data-i18n="svc4Time">35 min</small></div>
           </div>
           <div class="widget-nav">
             <button type="button" class="btn btn-primary" id="next1" disabled data-i18n="nextBtn">التالي</button>
@@ -329,7 +330,7 @@
           <div class="slot-status-bar">
             <span id="slotSyncStatus" data-i18n="checkingSlots">جاري التحقق من الساعات المحجوزة...</span>
             <div>
-              <span class="legend-dot"><i style="background:#d32f2f"></i> <span data-i18n="bookedBadge">محجوز</span></span>
+              <span class="legend-dot"><i style="background:#d32f2f"></i> <span data-i18n="bookedBadge">M7joza</span></span>
             </div>
           </div>
           <div class="times-grid" id="timesContainer"></div>
@@ -413,7 +414,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q" data-i18n="faq3Q">واش يمكن نحجز نفس الساعة من جهاز آخر؟</div>
-        <div class="faq-a" data-i18n="faq3A">ila bgha zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno f nafss lwe9t.</div>
+        <div class="faq-a" data-i18n="faq3A">Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.</div>
       </div>
     </div>
   </div>
@@ -439,7 +440,12 @@
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxdPUMw1vfmYasRl84HNA4NYIm3hPMdHgeWO6ENrOz9JKnr5XP0kE0D19Lt8C9tki4XgQ/exec';
 const WHATSAPP_NUMBER = '212715962484';
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
-const SERVICE_DURATION = { 'قص + لحية': 45, 'قص': 30, 'لحية': 20 };
+const SERVICE_DURATION = {
+  '7ilakat cha3r': 30,
+  '7ilakat l7ya': 20,
+  '7ilakat l7ya w ch3ar': 45,
+  'Tandif bachrat l wjeh': 35
+};
 
 const I18N = {
   ar: {
@@ -447,12 +453,15 @@ const I18N = {
     heroTitle: 'احجز موعدك في <span>Barber Shop Sola</span><br>بضغطة زر واحدة.',
     heroSubtitle: 'بلا انتظار، بلا واتساب. اختر الخدمة والوقت المناسب لك، وسيصلك تأكيد فوري على هاتفك.',
     howTitle: 'كيفاش تحجز <span>موعدك؟</span>', howSubtitle: 'العملية كلها كتاخد أقل من دقيقة. تبع هاد الخطوات البسيطة:',
-    step1Title: 'اختار الخدمة', step1Desc: 'حدد واش بغيتي قص، لحية، ولا بجوج.',
+    step1Title: 'اختار الخدمة', step1Desc: 'حدد واش بغيتي 7ilakat cha3r، 7ilakat l7ya، 7ilakat l7ya w ch3ar، ولا tandif bachrat l wjeh.',
     step2Title: 'اختار النهار', step2Desc: 'شوف الأيام السبعة القادمة واختار اللي يناسبك.',
-    step3Title: 'اختار الساعة', step3Desc: 'ila bgha zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.',
+    step3Title: 'اختار الساعة', step3Desc: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.',
     step4Title: 'عمر معلوماتك', step4Desc: 'حط سميتك ورقم هاتفك، وتوصل برقم الحجز فوراً.',
     phoneMockTitle: 'احجز موعدك',
-    svc1Name: 'قص + لحية', svc1Time: '45 دقيقة', svc2Name: 'قص', svc2Time: '30 دقيقة', svc3Name: 'لحية', svc3Time: '20 دقيقة',
+    svc1Name: '7ilakat cha3r', svc1Time: '30 min',
+    svc2Name: '7ilakat l7ya', svc2Time: '20 min',
+    svc3Name: '7ilakat l7ya w ch3ar', svc3Time: '45 min',
+    svc4Name: 'Tandif bachrat l wjeh', svc4Time: '35 min',
     monShort: 'الاثنين', tueShort: 'الثلاثاء', wedShort: 'الأربعاء', confirmBtn: 'تأكيد الحجز',
     bookingTitle: 'احجز <span>موعدك الآن</span>',
     svcStepTitle: 'اختار الخدمة', stepBadge1: 'الخطوة 1 من 4',
@@ -460,8 +469,8 @@ const I18N = {
     timeStepTitle: 'اختار الساعة', stepBadge3: 'الخطوة 3 من 4',
     infoStepTitle: 'معلوماتك', stepBadge4: 'الخطوة 4 من 4',
     nextBtn: 'التالي', backBtn: 'رجوع', nameLabel: 'الاسم الكامل', namePlaceholder: 'اكتب اسمك هنا', phoneLabel: 'رقم الهاتف (واتساب)',
-    bookedBadge: 'محجوز', pastBadge: 'فاتت', checkingSlots: 'يتم تحديث الساعات المتاحة...', slotsSynced: 'الساعات محدثة — أي ساعة محجوزة تظهر مقفلة',
-    errName: 'عفاك دخل الاسم الكامل ديالك.', errPhone: 'عفاك دخل رقم هاتف صحيح.', errTaken: 'هاذ الساعة حجزها زبون آخر، اختار ساعة أخرى.',
+    bookedBadge: 'M7joza', pastBadge: 'فاتت', checkingSlots: 'يتم تحديث الساعات المحجوزة...', slotsSynced: 'الساعات محدثة — أي ساعة محجوزة تظهر M7joza',
+    errName: 'عفاك دخل الاسم الكامل ديالك.', errPhone: 'عفاك دخل رقم هاتف صحيح.', errTaken: 'Had sa3a 7jezha zabon li 9bel menek, khtar sa3a khra.',
     successTitle: 'تم تأكيد حجزك!', successSub: 'احتفظ برقم الحجز وأره عند الوصول.',
     turnLabel: 'رقم الحجز ديالك', labelName: 'الاسم', labelPhone: 'الهاتف', labelSvc: 'الخدمة', labelDay: 'اليوم', labelTime: 'الساعة',
     sendWaBtn: 'إرسال تفاصيل الحجز على واتساب', countdownLabel: 'الوقت المتبقي على موعدك', countdownStarted: 'حان وقت موعدك الآن!', countdownEnded: 'انتهى وقت هذا الموعد',
@@ -476,7 +485,7 @@ const I18N = {
     faqTitle: 'أسئلة <span>شائعة</span>',
     faq1Q: 'واش هاد الحجز ببلاش؟', faq1A: 'نعم، الحجز مجاني بالكامل للكليان. الكليان يختار الوقت ويجي فالميعاد.',
     faq2Q: 'كيفاش كنعرف أن الموعد تأكد؟', faq2A: 'بعد ما كتأكد الحجز، كتوصلك بطاقة فيها رقم الحجز الفريد. خد لقطة عليها وأوريها نهار الموعد.',
-    faq3Q: 'واش يمكن نحجز نفس الساعة من جهاز آخر؟', faq3A: 'ila bgha zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno f nafss lwe9t.',
+    faq3Q: 'واش يمكن نحجز نفس الساعة من جهاز آخر؟', faq3A: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.',
     footerCopyright: '© 2024 Barber Shop Sola. جميع الحقوق محفوظة.', footerDesignedBy: 'صُمم بواسطة'
   },
 
@@ -485,12 +494,15 @@ const I18N = {
     heroTitle: '7jez rdv dyalek f <span>Barber Shop Sola</span><br>b click wa7da.',
     heroSubtitle: 'Bla tsna, bla whatsapp. Khtar lkhdma w sa3a li tnasbek, w yjik confirmation 3la tilifon dyalek.',
     howTitle: 'Kifach t7jez <span>rdv dyalek?</span>', howSubtitle: 'Kolchi kayakhod 9el mn d9i9a. Tbe3 had lkhoutawat l bassita:',
-    step1Title: 'Khtar lkhdma', step1Desc: '7eded wach bghiti coupe, barbe, wla bjoj.',
+    step1Title: 'Khtar lkhdma', step1Desc: '7eded wach bghiti 7ilakat cha3r, 7ilakat l7ya, 7ilakat l7ya w ch3ar, wla tandif bachrat l wjeh.',
     step2Title: 'Khtar nhar', step2Desc: 'Chouf 7 yam li jayin w khtar nhar li ynasbek.',
-    step3Title: 'Khtar sa3a dyalek', step3Desc: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno, bach maykonch t3aroud f lwa9t.',
+    step3Title: 'Khtar sa3a dyalek', step3Desc: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.',
     step4Title: '3emmer ma3loumatek', step4Desc: '7et smitek w nimro dyal tilifon, w yjik ra9m l7ejz de suite.',
     phoneMockTitle: '7jez rdv dyalek',
-    svc1Name: 'Coupe + Barbe', svc1Time: '45 d9i9a', svc2Name: 'Coupe', svc2Time: '30 d9i9a', svc3Name: 'Barbe', svc3Time: '20 d9i9a',
+    svc1Name: '7ilakat cha3r', svc1Time: '30 min',
+    svc2Name: '7ilakat l7ya', svc2Time: '20 min',
+    svc3Name: '7ilakat l7ya w ch3ar', svc3Time: '45 min',
+    svc4Name: 'Tandif bachrat l wjeh', svc4Time: '35 min',
     monShort: 'Ltnin', tueShort: 'Tlat', wedShort: 'Larb3a', confirmBtn: 'Ta2kid l7ejz',
     bookingTitle: '7jez <span>rdv dyalek daba</span>',
     svcStepTitle: 'Khtar lkhdma', stepBadge1: 'Khotwa 1 mn 4',
@@ -505,16 +517,16 @@ const I18N = {
     sendWaBtn: 'Sift details f WhatsApp', countdownLabel: 'Ch7al ba9i 3la rdv dyalek', countdownStarted: 'Ja wa9t rdv dyalek daba!', countdownEnded: 'Salaw wa9t had rdv',
     bookAnother: '7jez rdv akhor',
     servicesTitle: 'Khadamatna <span>w atminatha</span>',
-    cardSvc1: 'Coupe ch3er', cardSvc1Price: '25 DH', cardSvc1Desc: 'Coupe moderne 3la 7ssab style dyalek.',
-    cardSvc2: 'Ta7did l7ya', cardSvc2Price: '15 DH', cardSvc2Desc: 'Ta7did w tchadib pro.',
-    cardSvc3: 'Coupe + L7ya', cardSvc3Price: '35 DH', cardSvc3Desc: 'Pack complet bach tban nadi.',
-    cardSvc4: 'Tandif l wjeh', cardSvc4Price: '30 DH', cardSvc4Desc: '3inaya w int3ach l wjeh.',
+    cardSvc1: '7ilakat cha3r', cardSvc1Price: '25 DH', cardSvc1Desc: '7ilaka 3asriya katlass9 m3a style dyalek.',
+    cardSvc2: '7ilakat l7ya', cardSvc2Price: '15 DH', cardSvc2Desc: 'Ta7did w tchadib pro.',
+    cardSvc3: '7ilakat l7ya w ch3ar', cardSvc3Price: '35 DH', cardSvc3Desc: 'Pack kaml bach tban nadi.',
+    cardSvc4: 'Tandif bachrat l wjeh', cardSvc4Price: '30 DH', cardSvc4Desc: '3inaya w int3ach l wjeh.',
     hoursTitle: '🕒 Swaia3 lkhdma', hoursDays: 'Ltnin - L7ed', hoursRange: '11:00 - 22:00',
     locationTitle: '📍 Blasset l7anout', locationText: '<strong>Adresse:</strong> Tanger, Maroc.<br>Clique 3la bouton bach t7ell l localisation f Google Maps.', openMaps: '7ell f Google Maps',
     faqTitle: 'As2ila <span>chay3a</span>',
     faq1Q: 'Wach had l7ejz fabour?', faq1A: 'Ah, l7ejz fabour 100% l client. Ktkhtar wa9tek w katji f lwe9t.',
     faq2Q: 'Kifach n3ref belli rdv t2kked?', faq2A: 'Ghir katconfirmer, katjik carte fiha code unique. Dir capture d\'écran w werriha nhar rdv.',
-    faq3Q: 'Wach ymken n7jez nfs sa3a mn tilifon akhor?', faq3A: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno, bach maykonch t3aroud f lwa9t.',
+    faq3Q: 'Wach ymken n7jez nfs sa3a mn tilifon akhor?', faq3A: 'Ila bgha chi zabon ykhtar sa3a dyalo, zabon li morah kaychof sa3a m7joza li 7jaz zabon li 9bel mno.',
     footerCopyright: '© 2024 Barber Shop Sola. Tous droits réservés.', footerDesignedBy: 'Mssaweb mn طرف'
   },
 
@@ -523,12 +535,15 @@ const I18N = {
     heroTitle: 'Réservez chez <span>Barber Shop Sola</span><br>en un clic.',
     heroSubtitle: 'Sans attente, sans WhatsApp. Choisissez votre service et votre créneau, avec confirmation instantanée.',
     howTitle: 'Comment <span>réserver ?</span>', howSubtitle: 'Moins d’une minute suffit. Suivez ces étapes simples :',
-    step1Title: 'Choisir le service', step1Desc: 'Sélectionnez coupe, barbe ou les deux.',
+    step1Title: 'Choisir le service', step1Desc: 'Sélectionnez 7ilakat cha3r, 7ilakat l7ya, 7ilakat l7ya w ch3ar ou tandif bachrat l wjeh.',
     step2Title: 'Choisir le jour', step2Desc: 'Consultez les 7 prochains jours et choisissez votre date.',
     step3Title: 'Choisir l’heure', step3Desc: 'Lorsqu’un client réserve un créneau, le client suivant le voit marqué comme réservé.',
     step4Title: 'Vos informations', step4Desc: 'Saisissez votre nom et téléphone pour obtenir votre numéro de passage.',
     phoneMockTitle: 'Réserver',
-    svc1Name: 'Coupe + Barbe', svc1Time: '45 min', svc2Name: 'Coupe', svc2Time: '30 min', svc3Name: 'Barbe', svc3Time: '20 min',
+    svc1Name: '7ilakat cha3r', svc1Time: '30 min',
+    svc2Name: '7ilakat l7ya', svc2Time: '20 min',
+    svc3Name: '7ilakat l7ya w ch3ar', svc3Time: '45 min',
+    svc4Name: 'Tandif bachrat l wjeh', svc4Time: '35 min',
     monShort: 'Lun', tueShort: 'Mar', wedShort: 'Mer', confirmBtn: 'Confirmer',
     bookingTitle: 'Réservez <span>maintenant</span>',
     svcStepTitle: 'Choisir le service', stepBadge1: 'Étape 1 sur 4',
@@ -536,7 +551,7 @@ const I18N = {
     timeStepTitle: 'Choisir l’heure', stepBadge3: 'Étape 3 sur 4',
     infoStepTitle: 'Vos coordonnées', stepBadge4: 'Étape 4 sur 4',
     nextBtn: 'Suivant', backBtn: 'Retour', nameLabel: 'Nom complet', namePlaceholder: 'Entrez votre nom complet', phoneLabel: 'Téléphone (WhatsApp)',
-    bookedBadge: 'Réservé', pastBadge: 'Passé', checkingSlots: 'Vérification des créneaux disponibles...', slotsSynced: 'Créneaux mis à jour — les heures prises sont bloquées',
+    bookedBadge: 'M7joza', pastBadge: 'Passé', checkingSlots: 'Vérification des créneaux disponibles...', slotsSynced: 'Créneaux mis à jour — les heures prises apparaissent M7joza',
     errName: 'Veuillez entrer votre nom complet.', errPhone: 'Veuillez entrer un numéro de téléphone valide.', errTaken: 'Ce créneau vient d’être réservé, veuillez en choisir un autre.',
     successTitle: 'Réservation confirmée !', successSub: 'Conservez votre numéro de réservation à l’arrivée.',
     turnLabel: 'Votre numéro de réservation', labelName: 'Nom', labelPhone: 'Téléphone', labelSvc: 'Service', labelDay: 'Jour', labelTime: 'Heure',
@@ -560,6 +575,7 @@ const I18N = {
 const state = {
   lang: 'ar',
   service: '',
+  duration: 30,
   dayISO: '',
   time: '',
   name: '',
@@ -868,7 +884,7 @@ async function handleBookingSubmit() {
   const payload = {
     code: bookingCode,
     service: state.service,
-    duration: SERVICE_DURATION[state.service] || 30,
+    duration: state.duration || SERVICE_DURATION[state.service] || 30,
     date: state.dayISO,
     time: state.time,
     name: state.name,
@@ -929,6 +945,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.svc').forEach(s => s.classList.remove('selected'));
       el.classList.add('selected');
       state.service = el.dataset.svc;
+      state.duration = Number(el.dataset.duration) || 30;
       document.getElementById('next1').disabled = false;
     });
   });
