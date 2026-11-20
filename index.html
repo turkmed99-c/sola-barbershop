@@ -24,6 +24,8 @@
   .btn-primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
   .btn-outline{background:transparent;color:var(--gold);border:2px solid var(--gold)}
   .btn-outline:hover{background:rgba(181,139,93,.08)}
+  .btn-danger{background:transparent;color:var(--red);border:2px solid var(--red);padding:12px 20px;font-size:14px;border-radius:12px}
+  .btn-danger:hover{background:var(--red);color:#fff}
 
   header{position:sticky;top:0;z-index:50;background:rgba(248, 246, 242, 0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:15px 0}
   .container{max-width:1100px;margin:0 auto;padding:0 20px}
@@ -156,6 +158,12 @@
   .widget-nav{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
   .widget-nav .btn{flex:1;padding:15px;font-size:16px}
 
+  .cancel-box{max-width:600px;margin:25px auto 0;background:var(--card);border-radius:20px;padding:25px 30px;box-shadow:var(--shadow);border:1px solid var(--border)}
+  .cancel-box h4{font-size:18px;font-weight:900;margin-bottom:12px;color:var(--ink)}
+  .cancel-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:center}
+  .cancel-row input{padding:12px 14px;border-radius:10px;border:2px solid var(--border);background:var(--bg);font-family:inherit;font-size:14px;width:100%}
+  .cancel-msg{margin-top:10px;font-size:13px;font-weight:800;min-height:20px}
+
   .receipt-card {background:#fff; border:2px solid var(--gold); border-radius:16px; padding:25px; margin:20px auto; max-width:440px; box-shadow: 0 10px 30px rgba(181,139,93,.15); position:relative; overflow:hidden;}
   .receipt-card::before {content:''; position:absolute; top:0; left:0; width:100%; height:6px; background:var(--gold);}
   .receipt-header {text-align:center; padding-bottom:15px; border-bottom:2px dashed var(--border); margin-bottom:15px;}
@@ -227,7 +235,8 @@
   @media (max-width: 640px) {
     .times-grid { grid-template-columns: repeat(3,1fr); }
     .days-grid { grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); }
-    .booking-container { padding: 25px 20px; }
+    .booking-container, .cancel-box { padding: 25px 20px; }
+    .cancel-row { grid-template-columns: 1fr; }
     .live-clock { display:none; }
   }
 </style>
@@ -366,6 +375,16 @@
         </div>
       </div>
     </div>
+
+    <div class="cancel-box">
+      <h4 data-i18n="cancelBoxTitle">إلغاء حجز سابق</h4>
+      <div class="cancel-row">
+        <input type="text" id="cancelCode" placeholder="SOLA-1234" data-i18n-placeholder="cancelCodePh">
+        <input type="tel" id="cancelPhone" placeholder="06XXXXXXXX" data-i18n-placeholder="cancelPhonePh">
+        <button type="button" class="btn-danger" id="cancelBtn" data-i18n="cancelBtnText">إلغاء الحجز</button>
+      </div>
+      <div class="cancel-msg" id="cancelMsg"></div>
+    </div>
   </div>
 </section>
 
@@ -440,12 +459,7 @@
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxdPUMw1vfmYasRl84HNA4NYIm3hPMdHgeWO6ENrOz9JKnr5XP0kE0D19Lt8C9tki4XgQ/exec';
 const WHATSAPP_NUMBER = '212715962484';
 const allTimes  = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
-const SERVICE_DURATION = {
-  svc1: 30,
-  svc2: 20,
-  svc3: 45,
-  svc4: 35
-};
+const SERVICE_DURATION = { svc1: 30, svc2: 20, svc3: 45, svc4: 35 };
 
 const I18N = {
   ar: {
@@ -475,6 +489,8 @@ const I18N = {
     turnLabel: 'رقم الحجز', labelName: 'الاسم', labelPhone: 'الهاتف', labelSvc: 'الخدمة', labelDay: 'اليوم', labelTime: 'الساعة',
     sendWaBtn: 'إرسال تفاصيل الحجز', countdownLabel: 'الوقت المتبقي على موعدك', countdownStarted: 'حان وقت موعدك الآن!', countdownEnded: 'انتهى وقت هذا الموعد',
     bookAnother: 'حجز موعد آخر',
+    cancelBoxTitle: 'إلغاء حجز سابق', cancelCodePh: 'رقم الحجز (مثال: SOLA-1234)', cancelPhonePh: 'رقم الهاتف', cancelBtnText: 'إلغاء الحجز',
+    cancelNeedFields: 'يرجى إدخال رقم الحجز ورقم الهاتف.', cancelDone: 'تم إلغاء الحجز وتحرير الساعة بنجاح.', cancelNotFound: 'لم يتم العثور على حجز مطابق.',
     servicesTitle: 'خدماتنا <span>وأسعارها</span>',
     cardSvc1: 'قص شعر', cardSvc1Price: '25 درهم', cardSvc1Desc: 'قص عصري يناسب أسلوبك.',
     cardSvc2: 'تحديد لحية', cardSvc2Price: '15 درهم', cardSvc2Desc: 'تحديد وتشذيب احترافي.',
@@ -516,6 +532,8 @@ const I18N = {
     turnLabel: 'Ra9m l7ejz', labelName: 'Smiya', labelPhone: 'Tilifon', labelSvc: 'Lkhdma', labelDay: 'Nhar', labelTime: 'Sa3a',
     sendWaBtn: 'Sift tafassil l7ejz', countdownLabel: 'Lwa9t li ba9i 3la rdv dyalek', countdownStarted: 'Ja wa9t rdv dyalek daba!', countdownEnded: 'Salaw wa9t had rdv',
     bookAnother: '7jez rdv akhor',
+    cancelBoxTitle: 'Ilghae 7ejz saba9', cancelCodePh: 'Ra9m l7ejz (matalan: SOLA-1234)', cancelPhonePh: 'Nimro tilifon', cancelBtnText: 'Ilghae l7ejz',
+    cancelNeedFields: '3afak dkhel ra9m l7ejz w nimro tilifon.', cancelDone: 'Tmalgha l7ejz w t7rrat sa3a b naja7.', cancelNotFound: 'Mal9ina 7ta 7ejz b had lma3loumat.',
     servicesTitle: 'Khadamatna <span>w atminatha</span>',
     cardSvc1: '7ilakat cha3r', cardSvc1Price: '25 DH', cardSvc1Desc: '7ilaka 3asriya katlass9 m3a style dyalek.',
     cardSvc2: '7ilakat l7ya', cardSvc2Price: '15 DH', cardSvc2Desc: 'Ta7did w tchadib m9ad.',
@@ -557,6 +575,8 @@ const I18N = {
     turnLabel: 'Numéro de réservation', labelName: 'Nom', labelPhone: 'Téléphone', labelSvc: 'Prestation', labelDay: 'Jour', labelTime: 'Heure',
     sendWaBtn: 'Envoyer la confirmation', countdownLabel: 'Temps restant avant le rendez-vous', countdownStarted: 'C’est l’heure de votre rendez-vous !', countdownEnded: 'Ce créneau est terminé',
     bookAnother: 'Nouvelle réservation',
+    cancelBoxTitle: 'Annuler une réservation', cancelCodePh: 'Code (ex. : SOLA-1234)', cancelPhonePh: 'Téléphone', cancelBtnText: 'Annuler',
+    cancelNeedFields: 'Veuillez saisir le code et le numéro de téléphone.', cancelDone: 'Réservation annulée et créneau libéré.', cancelNotFound: 'Aucune réservation correspondante trouvée.',
     servicesTitle: 'Nos prestations <span>et tarifs</span>',
     cardSvc1: 'Coupe de cheveux', cardSvc1Price: '25 DH', cardSvc1Desc: 'Coupe moderne adaptée à votre style.',
     cardSvc2: 'Taille de barbe', cardSvc2Price: '15 DH', cardSvc2Desc: 'Traçage et finition soignée.',
@@ -600,6 +620,16 @@ function saveLocalBooking(dayISO, time) {
     if (!Array.isArray(all[dayISO])) all[dayISO] = [];
     if (!all[dayISO].includes(time)) all[dayISO].push(time);
     localStorage.setItem(STORAGE_BOOKINGS_KEY, JSON.stringify(all));
+  } catch {}
+}
+
+function removeLocalBooking(dayISO, time) {
+  try {
+    const all = JSON.parse(localStorage.getItem(STORAGE_BOOKINGS_KEY) || '{}');
+    if (Array.isArray(all[dayISO])) {
+      all[dayISO] = all[dayISO].filter(tSlot => tSlot !== time);
+      localStorage.setItem(STORAGE_BOOKINGS_KEY, JSON.stringify(all));
+    }
   } catch {}
 }
 
@@ -713,17 +743,23 @@ async function fetchServerBookedSlots(dayISO) {
   if (!scriptURL || scriptURL.includes('YOUR_SCRIPT_ID')) return localBooked;
 
   try {
-    const res = await fetch(`${scriptURL}?action=getBooked&date=${encodeURIComponent(dayISO)}`, { cache: 'no-store' });
+    const res = await fetch(`${scriptURL}?action=getBookedSlots&date=${encodeURIComponent(dayISO)}`, { cache: 'no-store' });
     if (!res.ok) return localBooked;
     const data = await res.json();
-    const serverBooked = Array.isArray(data.bookedSlots)
-      ? data.bookedSlots
-      : Array.isArray(data.booked)
-      ? data.booked
-      : [];
+
+    let serverBooked = [];
+    if (Array.isArray(data.bookedSlots)) {
+      serverBooked = data.bookedSlots;
+    } else if (Array.isArray(data.slots)) {
+      serverBooked = data.slots
+        .filter(item => String(item).startsWith(dayISO + '_'))
+        .map(item => String(item).split('_')[1]);
+    }
 
     if (typeof data.totalBookings === 'number') {
-      setBookingCounter(Math.max(getBookingCounter(), data.totalBookings));
+      setBookingCounter(data.totalBookings);
+    } else if (typeof data.count === 'number') {
+      setBookingCounter(data.count);
     }
 
     return Array.from(new Set([...localBooked, ...serverBooked]));
@@ -886,9 +922,10 @@ async function handleBookingSubmit() {
     return;
   }
 
-  const bookingCode = 'SOLA-' + Math.floor(1000 + Math.random() * 9000);
+  let bookingCode = 'SOLA-' + Math.floor(1000 + Math.random() * 9000);
   const serviceLabel = getSelectedServiceLabel();
   const payload = {
+    action: 'book',
     code: bookingCode,
     service: serviceLabel,
     duration: state.duration || SERVICE_DURATION[state.serviceKey] || 30,
@@ -904,16 +941,17 @@ async function handleBookingSubmit() {
       const formData = new URLSearchParams(payload);
       const res = await fetch(scriptURL, { method: 'POST', body: formData });
       if (res.ok) {
-        try {
-          const data = await res.json();
-          if (data && data.taken) {
-            errEl.textContent = t('errTaken');
-            state.time = '';
-            submitBtn.disabled = false;
-            goToStep(3);
-            return;
-          }
-        } catch {}
+        const data = await res.json();
+        if (data && (data.taken || data.status === 'TAKEN')) {
+          errEl.textContent = t('errTaken');
+          state.time = '';
+          submitBtn.disabled = false;
+          goToStep(3);
+          return;
+        }
+        if (data && (data.code || data.bookingId)) {
+          bookingCode = data.code || data.bookingId;
+        }
       }
     }
   } catch {}
@@ -922,6 +960,53 @@ async function handleBookingSubmit() {
   setBookingCounter(getBookingCounter() + 1);
   submitBtn.disabled = false;
   showReceipt(bookingCode);
+}
+
+async function handleCancelSubmit() {
+  const codeEl = document.getElementById('cancelCode');
+  const phoneEl = document.getElementById('cancelPhone');
+  const msgEl = document.getElementById('cancelMsg');
+  const btn = document.getElementById('cancelBtn');
+
+  const code = codeEl.value.trim().toUpperCase();
+  const phone = phoneEl.value.trim();
+
+  if (!code || !phone) {
+    msgEl.style.color = 'var(--red)';
+    msgEl.textContent = t('cancelNeedFields');
+    return;
+  }
+
+  btn.disabled = true;
+  msgEl.style.color = 'var(--muted)';
+  msgEl.textContent = t('checkingSlots');
+
+  try {
+    const params = new URLSearchParams({ action: 'cancel', code: code, phone: phone });
+    const res = await fetch(scriptURL, { method: 'POST', body: params });
+    const data = await res.json();
+
+    if (data && (data.ok || data.status === 'OK')) {
+      if (data.date && data.time) {
+        removeLocalBooking(data.date, data.time);
+      }
+      if (state.dayISO) {
+        await loadBookedSlotsForDay(state.dayISO);
+      }
+      codeEl.value = '';
+      phoneEl.value = '';
+      msgEl.style.color = 'var(--green)';
+      msgEl.textContent = t('cancelDone');
+    } else {
+      msgEl.style.color = 'var(--red)';
+      msgEl.textContent = t('cancelNotFound');
+    }
+  } catch {
+    msgEl.style.color = 'var(--red)';
+    msgEl.textContent = t('cancelNotFound');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 function resetBookingWidget() {
@@ -974,6 +1059,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('submitBtn').addEventListener('click', handleBookingSubmit);
+  document.getElementById('cancelBtn').addEventListener('click', handleCancelSubmit);
   document.getElementById('bookAnotherBtn').addEventListener('click', resetBookingWidget);
 
   document.querySelectorAll('.faq-item .faq-q').forEach(q => {
